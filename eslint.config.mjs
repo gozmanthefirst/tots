@@ -11,6 +11,6 @@ const compat = new FlatCompat({
   allConfig: js.configs.all,
 });
 
-const config = [...compat.extends("next/core-web-vitals")];
+const config = [...compat.extends("next/core-web-vitals", "prettier")];
 
 export default config;
