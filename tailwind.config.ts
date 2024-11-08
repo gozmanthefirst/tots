@@ -33,7 +33,7 @@ const config: Config = {
       },
 
       colors: {
-        background: "#0A0A0A",
+        background: "#0F0F0F",
         foreground: "#F3F3F3",
         brand: {
           // Accessible Text

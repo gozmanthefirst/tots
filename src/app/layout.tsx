@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 // Local Imports
-import { dmSans } from "@/styles/fonts";
+import { geist } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en">
       <body
-        className={`${dmSans.className} antialiased bg-background text-foreground`}
+        className={`${geist.className} antialiased bg-background text-foreground`}
       >
         {children}
       </body>

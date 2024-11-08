@@ -1,7 +1,14 @@
 // External Imports
-import { DM_Sans } from "next/font/google";
+import { Geist, Instrument_Serif } from "next/font/google";
 
-export const dmSans = DM_Sans({
+export const geist = Geist({
   subsets: ["latin"],
   display: "swap",
+});
+
+export const instrument = Instrument_Serif({
+  subsets: ["latin"],
+  display: "swap",
+  weight: "400",
+  style: ["normal", "italic"],
 });

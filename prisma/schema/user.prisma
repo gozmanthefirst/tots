@@ -1,0 +1,53 @@
+model User {
+  id            String    @id
+  name          String
+  email         String
+  username      String?   @unique
+  emailVerified Boolean
+  image         String?
+  Session       Session[]
+  Account       Account[]
+
+  createdAt DateTime
+  updatedAt DateTime
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  userId    String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Account {
+  id           String    @id
+  accountId    String
+  providerId   String
+  userId       String
+  accessToken  String?
+  refreshToken String?
+  idToken      String?
+  expiresAt    DateTime?
+  password     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+
+  @@map("verification")
+}
