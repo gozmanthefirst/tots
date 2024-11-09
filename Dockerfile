@@ -16,8 +16,7 @@ COPY prisma ./prisma
 RUN corepack enable pnpm && \
     pnpm install --frozen-lockfile
 
-# RUN pnpm dlx prisma generate
-RUN pnpm dlx prisma migrate dev -n tots
+RUN pnpm dlx prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
