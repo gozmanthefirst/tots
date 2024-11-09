@@ -1,0 +1,39 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runner
+    image: tots:production
+    container_name: tots-production
+    ports:
+      - "3005:3005"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=${DOCKER_DB_HOST}
+      - DB_USER=${DOCKER_DB_USER}
+      - DB_PASSWORD=${DOCKER_DB_PASSWORD}
+      - DB_NAME=${DOCKER_DB_NAME}
+      - DB_PORT=${DOCKER_DB_PORT}
+      - DATABASE_URL=${DOCKER_DATABASE_URL}
+    restart: unless-stopped
+    networks:
+      - tots-network
+    volumes:
+      - deps:/app/node_modules
+    depends_on:
+      - db
+
+  db:
+    extends:
+      file: docker-compose.base.yml
+      service: db
+
+networks:
+  tots-network:
+    driver: bridge
+
+volumes:
+  db-data:
+    driver: local
+  deps:
