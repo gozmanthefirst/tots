@@ -1,6 +1,3 @@
-# Define the DATABASE_URL build argument
-# ARG DATABASE_URL
-
 FROM node:20 AS base
 
 # Set up the application directory
@@ -8,9 +5,6 @@ WORKDIR /app
 
 # Separate dependencies installation to enable caching
 FROM base AS deps
-
-# Include the build argument in this stage
-# ARG DATABASE_URL
 
 # Copy only the files needed for installation
 COPY pnpm-lock.yaml package.json ./
@@ -22,11 +16,7 @@ COPY prisma ./prisma
 RUN corepack enable pnpm && \
     pnpm install --frozen-lockfile
 
-# Set DATABASE_URL as an environment variable temporarily for migration
-# ENV DATABASE_URL=$DATABASE_URL
 RUN pnpm dlx prisma generate
-# RUN pnpm dlx prisma migrate dev
-# RUN pnpm dlx prisma db push
 
 # Rebuild the source code only when needed
 FROM base AS builder

@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const LogoHeader = () => {
   return (
-    <header className="sticky top-0 z-50 py-6">
+    <header className="fixed top-0 z-50 py-6">
       <div className="flex justify-start">
         <Link href={"/"}>
           <div className="relative size-10">

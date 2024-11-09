@@ -4,39 +4,32 @@ services:
       context: .
       dockerfile: Dockerfile
       target: runner
-      # args:
-      #   DATABASE_URL: ${DATABASE_URL}
     image: tots:production
     container_name: tots-production
     ports:
       - "3005:3005"
     environment:
       - NODE_ENV=production
-      - DB_HOST=${DB_HOST}
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
-      - DB_PORT=${DB_PORT}
-      - DATABASE_URL=${DATABASE_URL}
+      - DB_HOST=${DOCKER_DB_HOST}
+      - DB_USER=${DOCKER_DB_USER}
+      - DB_PASSWORD=${DOCKER_DB_PASSWORD}
+      - DB_NAME=${DOCKER_DB_NAME}
+      - DB_PORT=${DOCKER_DB_PORT}
+      - DATABASE_URL=${DOCKER_DATABASE_URL}
     restart: unless-stopped
     networks:
       - tots-network
     volumes:
       - deps:/app/node_modules
-    # command: >
-    #   sh -c "
-    #     pnpm dlx prisma migrate dev &&
-    #     node server.js
-    #   "
     depends_on:
       - db
 
   db:
     image: postgres:16.2
     environment:
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DOCKER_DB_PASSWORD}
+      - POSTGRES_USER=${DOCKER_DB_USER}
+      - POSTGRES_DB=${DOCKER_DB_NAME}
     volumes:
       - db-data:/var/lib/postgresql/data
 

@@ -3,6 +3,8 @@ import type { Metadata } from "next";
 import { ReactNode } from "react";
 
 // Local Imports
+import QueryProvider from "@/providers/query-provider";
+import { ScreenSize } from "@/shared/components/screen-size";
 import { geist } from "@/styles/fonts";
 import "@/styles/globals.css";
 
@@ -21,7 +23,8 @@ const RootLayout = ({ children }: Props) => {
       <body
         className={`${geist.className} antialiased bg-background text-foreground`}
       >
-        {children}
+        <ScreenSize />
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );
