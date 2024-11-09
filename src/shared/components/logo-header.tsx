@@ -2,9 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-// Local Imports
-
-export const AuthHeader = () => {
+export const LogoHeader = () => {
   return (
     <header className="sticky top-0 z-50 py-6">
       <div className="flex justify-start">

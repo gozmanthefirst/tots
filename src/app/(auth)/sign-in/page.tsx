@@ -3,7 +3,7 @@ import { SignInForm } from "@/features/auth/components/sign-in-form";
 
 const SignInPage = () => {
   return (
-    <main className="flex flex-col items-center justify-center gap-12 h-full">
+    <main className="flex flex-col items-center justify-center h-full">
       <SignInForm />
     </main>
   );
