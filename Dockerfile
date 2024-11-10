@@ -42,9 +42,6 @@ ENV NODE_ENV=production \
     HOSTNAME="0.0.0.0" \
     PORT=3005
 
-# Enable pnpm in the runner stage
-RUN corepack enable pnpm
-
 #  Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs

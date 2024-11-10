@@ -18,11 +18,6 @@ services:
       - deps:/app/node_modules
     depends_on:
       - db
-    command: >
-      sh -c "
-        pnpm dlx prisma migrate deploy &&
-        node server.js
-      "
 
   db:
     image: postgres:16.2
