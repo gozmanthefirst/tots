@@ -1,4 +1,6 @@
-FROM node:20 AS base
+FROM node:20-alpine AS base
+
+RUN apk add --no-cache libc6-compat
 
 # Set up the application directory
 WORKDIR /app
@@ -16,6 +18,7 @@ COPY prisma ./prisma
 RUN corepack enable pnpm && \
     pnpm install --frozen-lockfile
 
+# Generate Prisma client
 RUN pnpm dlx prisma generate
 
 # Rebuild the source code only when needed
@@ -38,6 +41,9 @@ WORKDIR /app
 ENV NODE_ENV=production \
     HOSTNAME="0.0.0.0" \
     PORT=3005
+
+# Enable pnpm in the runner stage
+RUN corepack enable pnpm
 
 #  Create a non-root user
 RUN addgroup --system --gid 1001 nodejs
