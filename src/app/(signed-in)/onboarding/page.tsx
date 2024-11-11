@@ -1,5 +1,5 @@
 // Local Imports
-import { CreateUsernameForm } from "@/features/onboarding/components/create-username";
+import { CreateUsernameForm } from "@/features/onboarding/components/create-username-form";
 
 const OnboardingPage = () => {
   return (
