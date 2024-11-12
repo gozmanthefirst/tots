@@ -8,6 +8,7 @@ import { z } from "zod";
 import { usernameSchema } from "../../features/onboarding/schemas/zod-schema";
 import { auth } from "../lib/auth/auth";
 import db from "../lib/db/prisma";
+import { ServerActionResponse } from "../types";
 import { getUserByUsername } from "./get-user";
 
 export const createUsername = async (
