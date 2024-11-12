@@ -13,14 +13,16 @@ import { Container } from "@/shared/components/container";
 import { auth } from "@/shared/lib/auth/auth";
 import { redirect } from "next/navigation";
 
+type Params = Promise<{ username: string }>;
+
 interface Props {
   children: ReactNode;
-  params: {
-    username: string;
-  };
+  params: Params;
 }
 
-const TotsLayout = async ({ children, params: { username } }: Props) => {
+const TotsLayout = async ({ children, params }: Props) => {
+  const { username } = await params;
+
   const headersList = await headers();
 
   const session = await auth.api.getSession({
