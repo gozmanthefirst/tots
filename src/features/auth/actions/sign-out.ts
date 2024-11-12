@@ -4,8 +4,9 @@ import { signOut as signout } from "@/shared/lib/auth/auth-client";
 export const signOut = async () => {
   try {
     await signout();
-    window.location.href = "/sign-in";
+    return { success: true };
   } catch (error) {
     console.log(error);
+    return { success: false };
   }
 };

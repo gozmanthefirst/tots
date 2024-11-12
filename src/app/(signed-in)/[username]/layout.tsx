@@ -8,17 +8,19 @@ import { headers } from "next/headers";
 import { ReactNode } from "react";
 
 // Local Imports
-import { getUsernames } from "@/shared/actions/get-usernames";
+import { TotsHeader } from "@/features/tots/components/tots-header";
 import { Container } from "@/shared/components/container";
-import { LogoHeader } from "@/shared/components/logo-header";
 import { auth } from "@/shared/lib/auth/auth";
 import { redirect } from "next/navigation";
 
 interface Props {
   children: ReactNode;
+  params: {
+    username: string;
+  };
 }
 
-const OnboardingLayout = async ({ children }: Props) => {
+const TotsLayout = async ({ children, params: { username } }: Props) => {
   const headersList = await headers();
 
   const session = await auth.api.getSession({
@@ -26,8 +28,8 @@ const OnboardingLayout = async ({ children }: Props) => {
   });
 
   if (session?.user) {
-    if (session?.user.username) {
-      redirect(`/${session.user.username}`);
+    if (!session?.user.username) {
+      redirect(`/onboarding`);
     }
   } else {
     redirect(`/sign-in`);
@@ -35,18 +37,16 @@ const OnboardingLayout = async ({ children }: Props) => {
 
   const queryClient = new QueryClient();
 
-  const { data: usernames } = await getUsernames();
-
-  queryClient.setQueryData(["usernames"], { data: usernames });
+  queryClient.setQueryData(["user"], { data: session?.user });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <Container className="flex flex-col h-dvh">
-        <LogoHeader />
+        <TotsHeader />
         {children}
       </Container>
     </HydrationBoundary>
   );
 };
 
-export default OnboardingLayout;
+export default TotsLayout;

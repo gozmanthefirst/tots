@@ -2,13 +2,13 @@
 
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 // Local Imports
-import { signOut } from "@/features/auth/server/sign-out";
+import { signOut } from "@/features/auth/actions/sign-out";
 import { Button } from "@/shared/components/button";
 import {
   Form,
@@ -20,8 +20,11 @@ import {
 import { Input } from "@/shared/components/input";
 import { Spinner } from "@/shared/components/spinner";
 import { cn } from "@/shared/lib/utils/cn";
+import { ServerActionResponse } from "@/shared/types";
 import { instrument } from "@/styles/fonts";
-import { AnimatePresence, motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { createUsername } from "../../../shared/actions/create-username";
+import { getUsernames } from "../../../shared/actions/get-usernames";
 import { usernameSchema } from "../schemas/zod-schema";
 
 const createUsernameBtnCopy = {
@@ -40,18 +43,25 @@ const signOutBtnCopy = {
 type UsernameFormType = z.infer<ReturnType<typeof usernameSchema>>;
 
 export const CreateUsernameForm = () => {
-  const router = useRouter();
-
   const [signOutBtnState, setSignOutBtnState] = useState<
+    "idle" | "loading" | "success" | "error"
+  >("idle");
+  const [createUsernameBtnState, setCreateUsernameBtnState] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
 
   const handleSignOut = async () => {
     try {
       setSignOutBtnState("loading");
-      await signOut();
+      const response = await signOut();
 
-      setSignOutBtnState("success");
+      if (response.success) {
+        setSignOutBtnState("success");
+
+        setTimeout(() => {
+          window.location.href = "/sign-in";
+        }, 2000);
+      }
     } catch (error) {
       console.log(error);
       setSignOutBtnState("error");
@@ -62,14 +72,48 @@ export const CreateUsernameForm = () => {
     }
   };
 
+  // Fetch usernaes
+  const { data: { data: usernames } = {} } = useQuery({
+    queryKey: ["usernames"],
+    queryFn: getUsernames,
+    refetchInterval: 5000,
+  });
+
+  const validUsernames = usernames
+    ?.map((user) => user?.username)
+    .filter((username): username is string => username !== null);
+
   const form = useForm<UsernameFormType>({
-    resolver: zodResolver(usernameSchema([])),
+    resolver: zodResolver(usernameSchema(validUsernames!)),
     defaultValues: {
-      username: undefined,
+      username: "",
     },
   });
 
-  const onSubmit = (values: UsernameFormType) => {};
+  const onSubmit = async (values: UsernameFormType) => {
+    try {
+      setCreateUsernameBtnState("loading");
+      const response: ServerActionResponse = await createUsername(
+        values,
+        validUsernames!
+      );
+
+      if (response.status === "success") {
+        setCreateUsernameBtnState("success");
+
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 2000);
+      }
+    } catch (error) {
+      console.log(error);
+      setCreateUsernameBtnState("error");
+
+      setTimeout(() => {
+        setCreateUsernameBtnState("idle");
+      }, 3000);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 items-center text-center max-w-md w-full px-2 md:gap-6">
@@ -87,9 +131,10 @@ export const CreateUsernameForm = () => {
           allowed.`}
       </p>
 
-      <section className="w-full mt-4">
+      <section className="flex flex-col gap-6 w-full mt-4">
         <Form {...form}>
           <form
+            id="username-form"
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-6"
           >
@@ -103,23 +148,25 @@ export const CreateUsernameForm = () => {
                     <div className="relative">
                       <Input
                         type="text"
-                        // disabled={isCreateUsernamePending}
+                        disabled={createUsernameBtnState !== "idle"}
                         placeholder="johndoe"
                         value={field.value}
-                        // onChange={(e) => {
-                        //   const username = e.target.value;
+                        onChange={(e) => {
+                          const username = e.target.value;
 
-                        //   field.onChange(username);
+                          field.onChange(username);
 
-                        //   if (validUsernames?.includes(username?.toLowerCase())) {
-                        //     form.setError("username", {
-                        //       type: "custom",
-                        //       message: "This username has already been taken",
-                        //     });
-                        //   } else {
-                        //     form.clearErrors();
-                        //   }
-                        // }}
+                          if (
+                            validUsernames?.includes(username?.toLowerCase())
+                          ) {
+                            form.setError("username", {
+                              type: "custom",
+                              message: "This username has already been taken",
+                            });
+                          } else {
+                            form.clearErrors();
+                          }
+                        }}
                       />
                     </div>
                   </FormControl>
@@ -127,25 +174,33 @@ export const CreateUsernameForm = () => {
                 </FormItem>
               )}
             />
-
-            <div className="flex flex-col gap-3">
-              <Button className="" size={"lg"}>
-                Create Username
-              </Button>
-              <AnimatedButton
-                action={handleSignOut}
-                buttonCopy={signOutBtnCopy}
-                buttonState={signOutBtnState}
-                setButtonState={setSignOutBtnState}
-                size="lg"
-                variant="secondary"
-              />
-              {/* <Button className="" size={"lg"} variant={"secondary"}>
-                Back to sign in
-              </Button> */}
-            </div>
           </form>
         </Form>
+
+        <div className="flex flex-col gap-3">
+          <AnimatedButton
+            form="username-form"
+            disabled={
+              createUsernameBtnState !== "idle" || signOutBtnState !== "idle"
+            }
+            buttonCopy={createUsernameBtnCopy}
+            buttonState={createUsernameBtnState}
+            setButtonState={setCreateUsernameBtnState}
+            size="lg"
+            variant="brand"
+          />
+          <AnimatedButton
+            action={handleSignOut}
+            disabled={
+              createUsernameBtnState !== "idle" || signOutBtnState !== "idle"
+            }
+            buttonCopy={signOutBtnCopy}
+            buttonState={signOutBtnState}
+            setButtonState={setSignOutBtnState}
+            size="lg"
+            variant="secondary"
+          />
+        </div>
       </section>
     </div>
   );
@@ -164,7 +219,9 @@ interface AnimatedButtonProps {
     success: string;
     error: string;
   };
-  action: () => void;
+  action?: () => void;
+  disabled?: boolean;
+  form?: string;
 }
 
 const AnimatedButton = ({
@@ -174,6 +231,8 @@ const AnimatedButton = ({
   setButtonState,
   buttonCopy,
   action,
+  disabled,
+  form,
 }: AnimatedButtonProps) => {
   const variants = {
     initial: { opacity: 0, y: -40 },
@@ -183,11 +242,12 @@ const AnimatedButton = ({
 
   return (
     <Button
+      form={form ? form : ""}
       variant={variant}
       size={size}
-      disabled={buttonState !== "idle"}
+      disabled={disabled}
       onClick={() => {
-        action();
+        action ? action() : () => {};
       }}
       className={cn("relative overflow-hidden max-w-md w-full")}
     >

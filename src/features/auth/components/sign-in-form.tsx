@@ -10,7 +10,7 @@ import { Button } from "@/shared/components/button";
 import { Spinner } from "@/shared/components/spinner";
 import { cn } from "@/shared/lib/utils/cn";
 import { instrument } from "@/styles/fonts";
-import { signInWithGoogle } from "../server/sign-in";
+import { signInWithGoogle } from "../actions/sign-in";
 
 const buttonCopy = {
   idle: (
@@ -20,7 +20,7 @@ const buttonCopy = {
     </div>
   ),
   loading: <Spinner color="#E5E999" />,
-  success: "Sign in successful!",
+  success: "Signing in...",
   error: "Something went wrong",
 };
 
@@ -30,7 +30,7 @@ export const SignInForm = () => {
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
-          instrument.className,
+          instrument.className
         )}
       >
         Sign in to <span className="italic">Tots</span>
@@ -74,8 +74,6 @@ const SignInButton = ({ size }: SignInButtonProps) => {
       setTimeout(() => {
         setButtonState("idle");
       }, 3000);
-    } finally {
-      setButtonState("idle");
     }
   };
 
@@ -90,7 +88,7 @@ const SignInButton = ({ size }: SignInButtonProps) => {
       }}
       className={cn(
         "relative overflow-hidden max-w-md w-full",
-        size === "xl" ? "hidden md:inline-flex" : "md:hidden",
+        size === "xl" ? "hidden md:inline-flex" : "md:hidden"
       )}
     >
       <AnimatePresence mode="popLayout" initial={false}>
