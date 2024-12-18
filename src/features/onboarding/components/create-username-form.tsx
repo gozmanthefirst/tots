@@ -2,7 +2,7 @@
 
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -95,7 +95,7 @@ export const CreateUsernameForm = () => {
       setCreateUsernameBtnState("loading");
       const response: ServerActionResponse = await createUsername(
         values,
-        validUsernames!
+        validUsernames!,
       );
 
       if (response.status === "success") {
@@ -120,7 +120,7 @@ export const CreateUsernameForm = () => {
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
-          instrument.className
+          instrument.className,
         )}
       >
         Create <span className="italic">Username</span>

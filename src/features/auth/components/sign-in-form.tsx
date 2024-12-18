@@ -1,7 +1,7 @@
 "use client";
 
 // External Imports
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { TbBrandGoogleFilled } from "react-icons/tb";
 
@@ -30,7 +30,7 @@ export const SignInForm = () => {
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
-          instrument.className
+          instrument.className,
         )}
       >
         Sign in to <span className="italic">Tots</span>
@@ -88,7 +88,7 @@ const SignInButton = ({ size }: SignInButtonProps) => {
       }}
       className={cn(
         "relative overflow-hidden max-w-md w-full",
-        size === "xl" ? "hidden md:inline-flex" : "md:hidden"
+        size === "xl" ? "hidden md:inline-flex" : "md:hidden",
       )}
     >
       <AnimatePresence mode="popLayout" initial={false}>
