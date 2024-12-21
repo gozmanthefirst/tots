@@ -8,6 +8,7 @@ import { headers } from "next/headers";
 import { ReactNode } from "react";
 
 // Local Imports
+import { TotsEditorForm } from "@/features/editor/components/tots-editor-form";
 import { TotsHeader } from "@/features/tots/components/tots-header";
 import { Container } from "@/shared/components/container";
 import { auth } from "@/shared/lib/auth/auth";
@@ -43,9 +44,10 @@ const TotsLayout = async ({ children, params }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Container className="flex flex-col h-dvh">
+      <Container className="relative flex flex-col justify-between min-h-dvh">
         <TotsHeader />
         {children}
+        <TotsEditorForm />
       </Container>
     </HydrationBoundary>
   );

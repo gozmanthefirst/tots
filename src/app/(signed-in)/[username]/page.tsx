@@ -2,7 +2,6 @@
 import { headers } from "next/headers";
 
 // Local Imports
-import { TotsUsername } from "@/features/tots/components/tots-username";
 import { auth } from "@/shared/lib/auth/auth";
 
 const TotsPage = async () => {
@@ -12,11 +11,7 @@ const TotsPage = async () => {
     headers: headersList,
   });
 
-  return (
-    <main className="flex flex-col items-center justify-center h-full">
-      <TotsUsername user={session?.user} />
-    </main>
-  );
+  return <main className="h-full"></main>;
 };
 
 export default TotsPage;

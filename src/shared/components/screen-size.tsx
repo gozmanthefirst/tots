@@ -32,22 +32,26 @@ export const ScreenSize = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-3 left-3 z-50 flex items-center space-x-2 rounded-full bg-brand-400 px-2.5 py-1 font-mono text-xs font-extrabold text-black transition-opacity duration-300 lg:text-sm",
+        "fixed bottom-3 left-3 z-50 flex items-center space-x-2 rounded-full shadow bg-brand-400 px-2.5 py-1 font/-mono text-xs font-bold text-black transition-opacity duration-300",
         dimensions.width === 0 ? "opacity-0" : "opacity-100",
       )}
     >
       <span>
         {width.toLocaleString()} x {height.toLocaleString()}
       </span>
-      <div className="h-4 w-px bg-neutral-900" />
-      <span className="sm:hidden">XS</span>
-      <span className="hidden sm:inline smd:hidden">SM</span>
-      <span className="hidden smd:inline md:hidden">SMD</span>
-      <span className="hidden md:inline lg:hidden">MD</span>
-      <span className="hidden lg:inline xl:hidden">LG</span>
-      <span className="hidden xl:inline 2xl:hidden">XL</span>
-      <span className="hidden 2xl:inline 3xl:hidden">2XL</span>
-      <span className="hidden 3xl:inline">3XL</span>
+
+      <div className="h-3 w-px bg-neutral-900" />
+
+      <div className="pt-0.5">
+        <span className="sm:hidden">XS</span>
+        <span className="hidden sm:inline smd:hidden">SM</span>
+        <span className="hidden smd:inline md:hidden">SMD</span>
+        <span className="hidden md:inline lg:hidden">MD</span>
+        <span className="hidden lg:inline xl:hidden">LG</span>
+        <span className="hidden xl:inline 2xl:hidden">XL</span>
+        <span className="hidden 2xl:inline 3xl:hidden">2XL</span>
+        <span className="hidden 3xl:inline">3XL</span>
+      </div>
     </div>
   );
 };
