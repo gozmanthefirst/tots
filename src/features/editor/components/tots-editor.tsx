@@ -20,10 +20,10 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
 
   const getEditorStyling = (error: FieldError | undefined) => {
     if (error) {
-      return "border-red-800 focus-visible:border-red-500 focus-visible:ring-red-500/20";
+      return "relative overflow-auto min-h-[120px] max-h-[250px] field-sizing-content w-full rounded-3xl border border-red-800 bg-neutral-800/50 text-neutral-300 p-4 text-sm shadow-sm transition-colors placeholder:text-neutral-600 hover:border-red-700/50 focus-visible:border-red-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-500/20 disabled:cursor-not-allowed disabled:opacity-50 dark:focus-visible:border-brand-400 dark:border-neutral-800 dark:bg-neutral-900 dark:placeholder:text-neutral-600 dark:focus-visible:ring-brand/20-400 md:p-5 md:min-h-[150px] md:max-h-[300px] md:rounded-3xl";
     }
 
-    return "relative overflow-auto min-h-[120px] max-h-[250px] field-sizing-content w-full rounded-2xl md:rounded-3xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 p-4 text-sm shadow-sm transition-colors placeholder:text-neutral-600 hover:border-neutral-700/70 focus-visible:border-brand-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-400/20 disabled:cursor-not/-allowed disabled:opacity-50 dark:focus-visible:border-brand-400 dark:border-neutral-800 dark:bg-neutral-900 dark:placeholder:text-neutral-600 dark:focus-visible:ring-brand/20-400 md:p-5 md:min-h-[150px] md:max-h-[300px]";
+    return "relative overflow-auto min-h-[120px] max-h-[250px] field-sizing-content w-full rounded-3xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 p-4 text-sm shadow-sm transition-colors placeholder:text-neutral-600 hover:border-neutral-700/70 focus-visible:border-brand-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-400/20 disabled:cursor-not-allowed disabled:opacity-50 dark:focus-visible:border-brand-400 dark:border-neutral-800 dark:bg-neutral-900 dark:placeholder:text-neutral-600 dark:focus-visible:ring-brand/20-400 md:p-5 md:min-h-[150px] md:max-h-[300px] md:rounded-3xl";
   };
 
   const editor = useEditor({
@@ -52,9 +52,5 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     }
   }, [error, editor]);
 
-  return (
-    <div>
-      <EditorContent editor={editor} />
-    </div>
-  );
+  return <EditorContent editor={editor} />;
 };
