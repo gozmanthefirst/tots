@@ -4,11 +4,11 @@
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect } from "react";
-import { FieldError } from "react-hook-form";
 
 // Local Imports
+import { EditorControls } from "@/features/editor/components/editor-controls";
 import { useFormField } from "@/shared/components/form";
+import { cn } from "@/shared/lib/utils/cn";
 
 interface Props {
   onChange: (tots: string) => void;
@@ -18,39 +18,46 @@ interface Props {
 export const TotsEditor = ({ onChange, tots }: Props) => {
   const { error } = useFormField();
 
-  const getEditorStyling = (error: FieldError | undefined) => {
-    if (error) {
-      return "relative overflow-auto min-h-[120px] max-h-[250px] field-sizing-content w-full rounded-3xl border border-red-800 bg-neutral-800/50 text-neutral-300 p-4 text-sm shadow-sm transition-colors placeholder:text-neutral-600 hover:border-red-700/50 focus-visible:border-red-500 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-red-500/20 disabled:cursor-not-allowed disabled:opacity-50 dark:focus-visible:border-brand-400 dark:border-neutral-800 dark:bg-neutral-900 dark:placeholder:text-neutral-600 dark:focus-visible:ring-brand/20-400 md:p-5 md:min-h-[150px] md:max-h-[300px] md:rounded-3xl";
-    }
-
-    return "relative overflow-auto min-h-[120px] max-h-[250px] field-sizing-content w-full rounded-3xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 p-4 text-sm shadow-sm transition-colors placeholder:text-neutral-600 hover:border-neutral-700/70 focus-visible:border-brand-400 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-brand-400/20 disabled:cursor-not-allowed disabled:opacity-50 dark:focus-visible:border-brand-400 dark:border-neutral-800 dark:bg-neutral-900 dark:placeholder:text-neutral-600 dark:focus-visible:ring-brand/20-400 md:p-5 md:min-h-[150px] md:max-h-[300px] md:rounded-3xl";
-  };
-
   const editor = useEditor({
-    extensions: [StarterKit, Underline],
+    extensions: [
+      StarterKit.configure({
+        heading: {
+          levels: [1, 2],
+          HTMLAttributes: {
+            class: "text-xl/[2.5rem] font-bold md:text-2xl/[3.2rem]",
+            // levels: [1],
+          },
+        },
+      }),
+      Underline,
+    ],
     content: tots,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
+      // console.log(editor.getHTML());
     },
     editorProps: {
       attributes: {
-        class: getEditorStyling(error),
+        class:
+          "relative overflow-auto min-h-[100px] max-h-[250px] field-sizing-content w-full rounded-2xl border-none p-4 text-sm focus-visible:outline-hidden focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 md:p-5 md:min-h-[150px] md:max-h-[300px] md:rounded-3xl",
       },
     },
   });
 
-  // Update editor attributes when error changes
-  useEffect(() => {
-    if (editor) {
-      editor.setOptions({
-        editorProps: {
-          attributes: {
-            class: getEditorStyling(error),
-          },
-        },
-      });
-    }
-  }, [error, editor]);
+  if (!editor) {
+    return null;
+  }
 
-  return <EditorContent editor={editor} />;
+  return (
+    <div
+      className={cn(
+        "relative rounded-2xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 shadow-sm transition-colors placeholder:text-neutral-500 hover:border-neutral-700/70 has-focus-visible:border-brand-400 has-focus-visible:ring-4 has-focus-visible:ring-brand-400/20 has-focus-visible:outline-hidden md:rounded-3xl",
+        !!error &&
+          "border-red-900 hover:border-red-800 has-focus-visible:border-red-500 has-focus-visible:ring-red-500/20",
+      )}
+    >
+      <EditorContent editor={editor} />
+      <EditorControls editor={editor} />
+    </div>
+  );
 };

@@ -32,7 +32,7 @@ export const ScreenSize = () => {
   return (
     <div
       className={cn(
-        "fixed bottom-3 left-3 z-50 flex items-center space-x-2 rounded-full shadow bg-brand-400 px-2.5 py-1 font/-mono text-xs font-bold text-black transition-opacity duration-300",
+        "font/-mono fixed bottom-3 left-3 z-50 flex items-center space-x-2 rounded-full bg-brand-400 px-2.5 py-1 text-xs font-bold text-black shadow-sm transition-opacity duration-300",
         dimensions.width === 0 ? "opacity-0" : "opacity-100",
       )}
     >

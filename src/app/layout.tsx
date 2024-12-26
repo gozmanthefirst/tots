@@ -21,9 +21,9 @@ const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en">
       <body
-        className={`${geist.className} antialiased bg-background text-foreground`}
+        className={`${geist.className} bg-background text-foreground antialiased`}
       >
-        <ScreenSize />
+        {/* <ScreenSize /> */}
         <QueryProvider>{children}</QueryProvider>
       </body>
     </html>

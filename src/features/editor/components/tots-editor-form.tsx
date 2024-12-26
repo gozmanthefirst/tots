@@ -6,16 +6,14 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 // Local Imports
+import { TotsEditor } from "@/features/editor/components/tots-editor";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/shared/components/form";
-import { Input } from "@/shared/components/input";
 import { editorSchema } from "../schemas/zod-schema";
-import { TotsEditor } from "@/features/editor/components/tots-editor";
 
 type EditorFormType = z.infer<typeof editorSchema>;
 
@@ -30,7 +28,7 @@ export const TotsEditorForm = () => {
   const onSubmit = (values: EditorFormType) => {};
 
   return (
-    <section className="sticky bottom-0 max-w-2xl mx-auto w-full h-full my-4 md:my-6">
+    <section className="sticky bottom-0 mx-auto my-4 h-full w-full max-w-2xl md:my-6">
       <Form {...form}>
         <form
           id="tots-editor"
@@ -43,14 +41,8 @@ export const TotsEditorForm = () => {
             render={({ field }) => (
               <FormItem>
                 <FormControl>
-                  {/* <Input
-                    type="text"
-                    placeholder="Write down your tots..."
-                    {...field}
-                  /> */}
                   <TotsEditor tots={field.value} onChange={field.onChange} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
