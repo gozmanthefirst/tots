@@ -24,17 +24,16 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
         heading: {
           levels: [1, 2],
           HTMLAttributes: {
-            class: "text-xl/[2.5rem] font-bold md:text-2xl/[3.2rem]",
-            // levels: [1],
+            class: "rte",
           },
         },
       }),
       Underline,
     ],
     content: tots,
+    // immediatelyRender: false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
-      // console.log(editor.getHTML());
     },
     editorProps: {
       attributes: {

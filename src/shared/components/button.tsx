@@ -32,6 +32,7 @@ export const buttonVariants = cva(
         lg: "h-12 rounded-xl px-12",
         xl: "h-14 rounded-2xl px-12 text-base",
         icon: "h-10 w-10",
+        smIcon: "h-7 w-7 rounded-lg",
       },
     },
     defaultVariants: {
