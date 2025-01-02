@@ -27,18 +27,29 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
             class: "rte",
           },
         },
+        bulletList: {
+          HTMLAttributes: {
+            class: "list-disc px-6 py-3",
+          },
+        },
+        orderedList: {
+          HTMLAttributes: {
+            class: "list-decimal tabular-nums px-6 py-3",
+          },
+        },
       }),
       Underline,
     ],
     content: tots,
-    // immediatelyRender: false,
+    immediatelyRender: false,
+    autofocus: "end",
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
     editorProps: {
       attributes: {
         class:
-          "relative overflow-auto min-h-[100px] max-h-[250px] field-sizing-content w-full rounded-2xl border-none p-4 text-sm focus-visible:outline-hidden focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50 md:p-5 md:min-h-[150px] md:max-h-[300px] md:rounded-3xl",
+          "relative field-sizing-content max-h-[250px] min-h-[100px] w-full overflow-auto rounded-2xl border-none p-4 text-sm focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[300px] md:min-h-[150px] md:rounded-3xl md:p-5",
       },
     },
   });

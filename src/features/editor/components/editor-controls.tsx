@@ -115,16 +115,12 @@ export const EditorControls = ({ editor }: Props) => {
 
       {/* Lists */}
       <div className="flex items-center justify-center gap-1">
-        {/* Unordered List */}
+        {/* Bullet List */}
         <Button
           onClick={() => {
-            if (editor.isActive("orderedList")) {
-              editor.chain().focus().toggleOrderedList().run();
-            }
-
             editor.chain().focus().toggleBulletList().run();
           }}
-          variant={editor.isActive("heading", { level: 1 }) ? "white" : "ghost"}
+          variant={editor.isActive("bulletList") ? "white" : "ghost"}
           size={"smIcon"}
         >
           <TbList size={18} />
@@ -133,31 +129,14 @@ export const EditorControls = ({ editor }: Props) => {
         {/* Ordered List */}
         <Button
           onClick={() => {
-            if (editor.isActive("bulletList")) {
-              editor.chain().focus().toggleBulletList().run();
-            }
-
             editor.chain().focus().toggleOrderedList().run();
           }}
-          variant={editor.isActive("heading", { level: 2 }) ? "white" : "ghost"}
+          variant={editor.isActive("orderedList") ? "white" : "ghost"}
           size={"smIcon"}
         >
           <TbListNumbers size={18} />
         </Button>
       </div>
-
-      {/* <ToggleGroup type="single">
-        <ToggleGroupItem value="list" aria-label="Toggle Bullet List" size="sm">
-          <TbList size={18} />
-        </ToggleGroupItem>
-        <ToggleGroupItem
-          value="list-numbers"
-          aria-label="Toggle Numbered List"
-          size="sm"
-        >
-          <TbListNumbers size={18} />
-        </ToggleGroupItem>
-      </ToggleGroup> */}
 
       <Button
         size="icon"

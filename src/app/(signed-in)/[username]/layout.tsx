@@ -44,7 +44,7 @@ const TotsLayout = async ({ children, params }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Container className="relative flex flex-col justify-between min-h-dvh">
+      <Container className="relative flex min-h-dvh flex-col justify-between">
         <TotsHeader />
         {children}
         <TotsEditorForm />
