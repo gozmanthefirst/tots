@@ -13,12 +13,12 @@ export type ServerActionResponse<T = undefined> = T extends undefined
 export type SessionUser =
   | {
       id: string;
+      createdAt: Date;
+      updatedAt: Date;
       email: string;
       emailVerified: boolean;
       name: string;
-      createdAt: Date;
-      updatedAt: Date;
-      image?: string | undefined;
-      username?: string | undefined;
+      image?: string | null | undefined;
+      username?: string | null | undefined;
     }
   | undefined;

@@ -11,7 +11,7 @@ interface Props {
 export const Spinner = ({ color, size = 20 }: Props) => {
   return (
     <div
-      className="size-[--spinner-size]"
+      className="size-(--spinner-size)"
       style={
         {
           "--spinner-size": `${size}px`,
@@ -19,11 +19,11 @@ export const Spinner = ({ color, size = 20 }: Props) => {
         } as CSSProperties & Record<string, string>
       }
     >
-      <div className="relative top-1/2 left-1/2 size-[--spinner-size]">
+      <div className="relative top-1/2 left-1/2 size-(--spinner-size)">
         {bars.map((_, i) => (
           <div
             key={`spinner-bar-${i}`}
-            className="bar absolute -top-[4%] -left-[10%] h-[8%] w-[24%] animate-load bg-[--spinner-color] rounded-md"
+            className="bar absolute -top-[4%] -left-[10%] h-[8%] w-[24%] animate-load rounded-md bg-(--spinner-color)"
           />
         ))}
       </div>
