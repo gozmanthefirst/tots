@@ -20,11 +20,7 @@ export const auth = betterAuth({
   },
 
   // Trusted Origins
-  trustedOrigins: [
-    "http://localhost:3000",
-    "https://tots.gozman.dev",
-    "http://localhost:3005",
-  ],
+  trustedOrigins: ["http://localhost:3000", "https://tots.gozman.dev"],
 
   // Extend user table
   user: {
