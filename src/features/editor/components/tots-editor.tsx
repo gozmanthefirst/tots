@@ -4,6 +4,7 @@
 import Underline from "@tiptap/extension-underline";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { motion } from "motion/react";
 
 // Local Imports
 import { EditorControls } from "@/features/editor/components/editor-controls";
@@ -59,7 +60,19 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
   }
 
   return (
-    <div
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 10,
+        filter: "blur(4px)",
+        scale: 0.98,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        scale: 1,
+      }}
       className={cn(
         "relative rounded-2xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 shadow-sm transition-colors placeholder:text-neutral-500 hover:border-neutral-700/70 has-focus-visible:border-brand-400 has-focus-visible:ring-4 has-focus-visible:ring-brand-400/20 has-focus-visible:outline-hidden md:rounded-3xl",
         !!error &&
@@ -68,6 +81,6 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     >
       <EditorContent editor={editor} />
       <EditorControls editor={editor} />
-    </div>
+    </motion.div>
   );
 };
