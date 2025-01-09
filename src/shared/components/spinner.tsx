@@ -11,6 +11,7 @@ interface Props {
 export const Spinner = ({ color, size = 20 }: Props) => {
   return (
     <div
+      data-testid="loading-spinner"
       className="size-(--spinner-size)"
       style={
         {
