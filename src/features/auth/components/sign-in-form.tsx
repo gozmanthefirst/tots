@@ -14,7 +14,7 @@ import { signInWithGoogle } from "../actions/sign-in";
 
 const buttonCopy = {
   idle: (
-    <div className="flex gap-2 items-center">
+    <div className="flex items-center gap-2">
       <TbBrandGoogleFilled size={20} />
       <span>Continue with Google</span>
     </div>
@@ -26,7 +26,7 @@ const buttonCopy = {
 
 export const SignInForm = () => {
   return (
-    <div className="flex flex-col gap-8 items-center w-full px-2 md:gap-12">
+    <div className="flex w-full flex-col items-center gap-8 px-2 md:gap-12">
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
@@ -87,7 +87,7 @@ const SignInButton = ({ size }: SignInButtonProps) => {
         handleSignIn();
       }}
       className={cn(
-        "relative overflow-hidden max-w-md w-full",
+        "relative w-full max-w-md overflow-hidden",
         size === "xl" ? "hidden md:inline-flex" : "md:hidden",
       )}
     >
