@@ -1,30 +1,40 @@
-export const getUsernames = async () => {
-  try {
-    const response = await fetch(`/api/username/getUsernames`, {
-      method: "GET",
-    });
+"use server";
 
-    if (!response.ok) {
-      throw new Error(`Error fetching usernames.`);
+// Local Imports
+import db from "@/shared/lib/db/prisma";
+import { ServerActionResponse } from "@/shared/types";
+import { createParallelAction } from "../lib/utils/parallel-server-action";
+
+// get usernames
+export const getUsernames = createParallelAction(
+  async (): Promise<
+    ServerActionResponse | ServerActionResponse<{ username: string | null }[]>
+  > => {
+    try {
+      const usernames = await db.user.findMany({
+        select: {
+          username: true,
+        },
+      });
+
+      if (!usernames) {
+        return {
+          status: "error",
+          message: "Usernames not found!",
+        };
+      }
+
+      return {
+        status: "success",
+        message: "Usernames found!",
+        data: usernames,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        status: "error",
+        message: `Error fetching usernames: ${error}`,
+      };
     }
-
-    const jsonData = await response.json();
-
-    if (jsonData.status === "error") {
-      throw new Error(jsonData.message || "An unknown error occurred");
-    }
-
-    return {
-      data: jsonData.data as {
-        username: string | null;
-      }[],
-      error: null,
-    };
-  } catch (error) {
-    return {
-      data: null,
-      error:
-        error instanceof Error ? error.message : "An unknown error occurred",
-    };
-  }
-};
+  },
+);

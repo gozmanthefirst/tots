@@ -4,14 +4,14 @@ import {
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { headers } from "next/headers";
 import { ReactNode } from "react";
 
 // Local Imports
+import { getUser } from "@/shared/actions/get-user";
 import { getUsernames } from "@/shared/actions/get-usernames";
 import { Container } from "@/shared/components/container";
 import { LogoHeader } from "@/shared/components/logo-header";
-import { auth } from "@/shared/lib/auth/auth";
+import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -19,15 +19,14 @@ interface Props {
 }
 
 const OnboardingLayout = async ({ children }: Props) => {
-  const headersList = await headers();
+  const [{ data: user }, { data: usernames }] = await Promise.all([
+    runParallelAction(getUser()),
+    runParallelAction(getUsernames()),
+  ]);
 
-  const session = await auth.api.getSession({
-    headers: headersList,
-  });
-
-  if (session?.user) {
-    if (session?.user.username) {
-      redirect(`/${session.user.username}`);
+  if (user) {
+    if (user.username) {
+      redirect(`/${user.username}`);
     }
   } else {
     redirect(`/sign-in`);
@@ -35,13 +34,16 @@ const OnboardingLayout = async ({ children }: Props) => {
 
   const queryClient = new QueryClient();
 
-  const { data: usernames } = await getUsernames();
-
   queryClient.setQueryData(["usernames"], { data: usernames });
+  // queryClient.setQueryData(["usernames"], {
+  //   status: "success",
+  //   message: "",
+  //   data: usernames,
+  // });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Container className="flex flex-col h-dvh">
+      <Container className="flex h-dvh flex-col">
         <LogoHeader />
         {children}
       </Container>

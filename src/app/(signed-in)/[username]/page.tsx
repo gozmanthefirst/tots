@@ -1,15 +1,9 @@
-// External Imports
-import { headers } from "next/headers";
-
 // Local Imports
-import { auth } from "@/shared/lib/auth/auth";
+import { getUser } from "@/shared/actions/get-user";
+import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 
 const TotsPage = async () => {
-  const headersList = await headers();
-
-  const session = await auth.api.getSession({
-    headers: headersList,
-  });
+  const [{ data: user }] = await Promise.all([runParallelAction(getUser())]);
 
   return <main className="h-full"></main>;
 };
