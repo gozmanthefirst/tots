@@ -1,40 +1,79 @@
+"use server";
+
 // External Imports
-import { User } from "@prisma/client";
+import { headers } from "next/headers";
 
-export const getUserByUsername = async (username: string) => {
-  try {
-    const response = await fetch(
-      `/api/user/getUserByUsername?username=${username}`,
-      {
-        method: "GET",
-      }
-    );
+// Local Imports
+import { auth } from "@/shared/lib/auth/auth";
+import db from "@/shared/lib/db/prisma";
+import { ServerActionResponse, SessionUser } from "@/shared/types";
+import { createParallelAction } from "../lib/utils/parallel-server-action";
 
-    if (!response.ok) {
-      if (response.status === 401) {
-        throw new Error("Unauthorized. Please log in.");
-      } else if (response.status === 404) {
-        throw new Error("User not found.");
+// get user
+export const getUser = createParallelAction(
+  async (): Promise<
+    ServerActionResponse | ServerActionResponse<SessionUser>
+  > => {
+    try {
+      const headersList = await headers();
+
+      const session = await auth.api.getSession({
+        headers: headersList,
+      });
+
+      if (session?.user) {
+        return {
+          status: "success",
+          message: "User gotten!",
+          data: session.user,
+        };
       } else {
-        throw new Error(`Error fetching user data.`);
+        return { status: "error", message: "No user available!" };
       }
+    } catch (error) {
+      console.log(error);
+      return {
+        status: "error",
+        message: `Error fetching user: ${error}`,
+      };
+    }
+  },
+);
+
+// get user by username
+export const getUserByUsername = createParallelAction(
+  async (
+    username: string,
+  ): Promise<ServerActionResponse | ServerActionResponse<SessionUser>> => {
+    if (!username) {
+      return { status: "error", message: "Invalid username!" };
     }
 
-    const jsonData = await response.json();
+    try {
+      const user = await db.user.findUnique({
+        where: {
+          username: username.toLowerCase(),
+        },
+      });
 
-    if (jsonData.status === "error") {
-      throw new Error(jsonData.message || "An unknown error occurred");
+      if (!user) {
+        return {
+          status: "error",
+          message: "User not found!",
+        };
+      }
+
+      return {
+        status: "success",
+        message: "User found!",
+        data: user,
+      };
+    } catch (error) {
+      console.log(error);
+      return {
+        status: "error",
+        message: `Error fetching user: ${error}`,
+      };
     }
-
-    return {
-      data: jsonData.data as User,
-      error: null,
-    };
-  } catch (error) {
-    return {
-      data: null,
-      error:
-        error instanceof Error ? error.message : "An unknown error occurred",
-    };
-  }
-};
+  },
+);

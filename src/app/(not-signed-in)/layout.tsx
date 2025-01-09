@@ -1,11 +1,11 @@
 // External Imports
-import { headers } from "next/headers";
 import { ReactNode } from "react";
 
 // Local Imports
+import { getUser } from "@/shared/actions/get-user";
 import { Container } from "@/shared/components/container";
 import { LogoHeader } from "@/shared/components/logo-header";
-import { auth } from "@/shared/lib/auth/auth";
+import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { redirect } from "next/navigation";
 
 interface Props {
@@ -13,22 +13,18 @@ interface Props {
 }
 
 const AuthLayout = async ({ children }: Props) => {
-  const headersList = await headers();
+  const [{ data: user }] = await Promise.all([runParallelAction(getUser())]);
 
-  const session = await auth.api.getSession({
-    headers: headersList,
-  });
-
-  if (session?.user) {
-    if (!session?.user.username) {
+  if (user) {
+    if (!user.username) {
       redirect("/onboarding");
     } else {
-      redirect(`/${session.user.username}`);
+      redirect(`/${user.username}`);
     }
   }
 
   return (
-    <Container className="flex flex-col h-dvh">
+    <Container className="flex h-dvh flex-col">
       <LogoHeader />
       {children}
     </Container>

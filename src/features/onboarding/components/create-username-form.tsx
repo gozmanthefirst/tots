@@ -9,6 +9,7 @@ import { z } from "zod";
 
 // Local Imports
 import { signOut } from "@/features/auth/actions/sign-out";
+import { getUsernames } from "@/shared/actions/get-usernames";
 import { Button } from "@/shared/components/button";
 import {
   Form,
@@ -20,12 +21,12 @@ import {
 import { Input } from "@/shared/components/input";
 import { Spinner } from "@/shared/components/spinner";
 import { cn } from "@/shared/lib/utils/cn";
+import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 import { instrument } from "@/styles/fonts";
 import { useQuery } from "@tanstack/react-query";
-import { createUsername } from "../../../shared/actions/create-username";
-import { getUsernames } from "../../../shared/actions/get-usernames";
-import { usernameSchema } from "../schemas/zod-schema";
+import { createUsername } from "../actions/create-username";
+import { usernameSchema } from "../schemas/username-schema";
 
 const createUsernameBtnCopy = {
   idle: "Create Username",
@@ -75,7 +76,7 @@ export const CreateUsernameForm = () => {
   // Fetch usernaes
   const { data: { data: usernames } = {} } = useQuery({
     queryKey: ["usernames"],
-    queryFn: getUsernames,
+    queryFn: () => runParallelAction(getUsernames()),
     refetchInterval: 5000,
   });
 
@@ -116,7 +117,7 @@ export const CreateUsernameForm = () => {
   };
 
   return (
-    <div className="flex flex-col gap-4 items-center text-center max-w-md w-full px-2 md:gap-6">
+    <div className="flex w-full max-w-md flex-col items-center gap-4 px-2 text-center md:gap-6">
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
@@ -126,12 +127,12 @@ export const CreateUsernameForm = () => {
         Create <span className="italic">Username</span>
       </h1>
 
-      <p className="text-neutral-300 text-sm">
+      <p className="text-sm text-neutral-300">
         {`Enter your unique username. Only letters, numbers and underscores are
           allowed.`}
       </p>
 
-      <section className="flex flex-col gap-6 w-full mt-4">
+      <section className="mt-4 flex w-full flex-col gap-6">
         <Form {...form}>
           <form
             id="username-form"
@@ -249,7 +250,7 @@ const AnimatedButton = ({
       onClick={() => {
         action ? action() : () => {};
       }}
-      className={cn("relative overflow-hidden max-w-md w-full")}
+      className={cn("relative w-full max-w-md overflow-hidden")}
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.div

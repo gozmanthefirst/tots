@@ -25,7 +25,9 @@ export const TotsEditorForm = () => {
     },
   });
 
-  const onSubmit = (values: EditorFormType) => {};
+  const onSubmit = (values: EditorFormType) => {
+    console.log(values.tots);
+  };
 
   return (
     <section className="sticky bottom-0 mx-auto my-4 h-full w-full max-w-2xl md:my-6">

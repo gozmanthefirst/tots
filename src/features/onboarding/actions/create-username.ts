@@ -1,19 +1,18 @@
 "use server";
 
 // External Imports
-import { headers } from "next/headers";
 import { z } from "zod";
 
 // Local Imports
-import { usernameSchema } from "../../features/onboarding/schemas/zod-schema";
-import { auth } from "../lib/auth/auth";
-import db from "../lib/db/prisma";
-import { ServerActionResponse } from "../types";
-import { getUserByUsername } from "./get-user";
+import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
+import { getUser, getUserByUsername } from "../../../shared/actions/get-user";
+import db from "../../../shared/lib/db/prisma";
+import { ServerActionResponse } from "../../../shared/types";
+import { usernameSchema } from "../schemas/username-schema";
 
 export const createUsername = async (
   values: z.infer<ReturnType<typeof usernameSchema>>,
-  usernames: string[]
+  usernames: string[],
 ): Promise<ServerActionResponse> => {
   const validatedFields = usernameSchema(usernames).safeParse(values);
 
@@ -23,19 +22,16 @@ export const createUsername = async (
 
   const { username } = validatedFields.data;
 
-  const { data: existingUser } = await getUserByUsername(username);
+  const [{ data: existingUser }, { data: user }] = await Promise.all([
+    runParallelAction(getUserByUsername(username)),
+    runParallelAction(getUser()),
+  ]);
 
   if (existingUser) {
     return { status: "error", message: "This username has been taken!" };
   }
 
-  const headersList = await headers();
-
-  const session = await auth.api.getSession({
-    headers: headersList,
-  });
-
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return {
       status: "error",
       message: "Something went wrong! Please try again.",
@@ -45,7 +41,7 @@ export const createUsername = async (
   try {
     await db.user.update({
       where: {
-        id: session?.user?.id,
+        id: user.id,
       },
       data: {
         username: username.toLowerCase(),
@@ -57,7 +53,7 @@ export const createUsername = async (
     console.log(error);
     return {
       status: "error",
-      message: "Something went wrong! Please try again.",
+      message: `Error creating username: ${error}`,
     };
   }
 };
