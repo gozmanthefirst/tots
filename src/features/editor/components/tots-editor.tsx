@@ -30,12 +30,12 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
         },
         bulletList: {
           HTMLAttributes: {
-            class: "list-disc px-6 py-3",
+            class: "list-disc px-6 py-1",
           },
         },
         orderedList: {
           HTMLAttributes: {
-            class: "list-decimal tabular-nums px-6 py-3",
+            class: "list-decimal tabular-nums px-6 py-1",
           },
         },
       }),
