@@ -9,6 +9,7 @@ import { ReactNode } from "react";
 
 // Local Imports
 import { TotsEditorForm } from "@/features/editor/components/tots-editor-form";
+import { getTots } from "@/features/tots/actions/get-tots";
 import { TotsHeader } from "@/features/tots/components/tots-header";
 import { getUser } from "@/shared/actions/get-user";
 import { Container } from "@/shared/components/container";
@@ -24,7 +25,10 @@ interface Props {
 const TotsLayout = async ({ children, params }: Props) => {
   const { username } = await params;
 
-  const [{ data: user }] = await Promise.all([runParallelAction(getUser())]);
+  const [{ data: user }, { data: tots }] = await Promise.all([
+    runParallelAction(getUser()),
+    runParallelAction(getTots()),
+  ]);
 
   if (user) {
     if (!user.username) {
@@ -37,12 +41,13 @@ const TotsLayout = async ({ children, params }: Props) => {
   const queryClient = new QueryClient();
 
   queryClient.setQueryData(["user"], { data: user });
+  queryClient.setQueryData(["tots"], { data: tots });
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Container className="relative flex min-h-dvh flex-col justify-between">
+      <Container className="relative flex min-h-dvh flex-col">
         <TotsHeader />
-        {children}
+        <div className="flex-1">{children}</div>
         <TotsEditorForm />
       </Container>
     </HydrationBoundary>

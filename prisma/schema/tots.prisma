@@ -5,5 +5,6 @@ model Tots {
   updatedAt DateTime @updatedAt
   pinned    Boolean  @default(false)
   userId    String
+  folder    String
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

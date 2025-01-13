@@ -2,6 +2,7 @@
 
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Tots } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -13,7 +14,12 @@ import {
   FormField,
   FormItem,
 } from "@/shared/components/form";
-import { editorSchema } from "../schemas/zod-schema";
+import { ServerActionResponse } from "@/shared/types";
+import { createTot } from "../actions/create-tot";
+
+export const editorSchema = z.object({
+  tots: z.string().min(1, { message: "C'mon now, Tots can't be empty." }),
+});
 
 type EditorFormType = z.infer<typeof editorSchema>;
 
@@ -25,8 +31,24 @@ export const TotsEditorForm = () => {
     },
   });
 
-  const onSubmit = (values: EditorFormType) => {
-    console.log(values.tots);
+  const onSubmit = async (values: EditorFormType) => {
+    console.log(values.tots); //! TBR
+
+    try {
+      const response: ServerActionResponse | ServerActionResponse<Tots> =
+        await createTot(values);
+
+      if (response.status === "success") {
+        console.log(response.message); //! TBR
+        return;
+      }
+      if (response.status === "error") {
+        console.log(response.message);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

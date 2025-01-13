@@ -1,11 +1,12 @@
 // Local Imports
-import { getUser } from "@/shared/actions/get-user";
-import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
+import { Tots } from "@/features/tots/components/tots";
 
 const TotsPage = async () => {
-  const [{ data: user }] = await Promise.all([runParallelAction(getUser())]);
-
-  return <main className="h-full"></main>;
+  return (
+    <main className="h-96 py-4">
+      <Tots />
+    </main>
+  );
 };
 
 export default TotsPage;
