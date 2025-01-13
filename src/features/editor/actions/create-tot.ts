@@ -7,7 +7,7 @@ import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 import { Tots } from "@prisma/client";
 
-export const sendTot = async (values: {
+export const createTot = async (values: {
   tots: string;
 }): Promise<ServerActionResponse | ServerActionResponse<Tots>> => {
   const { tots } = values;

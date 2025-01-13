@@ -15,7 +15,7 @@ import {
   FormItem,
 } from "@/shared/components/form";
 import { ServerActionResponse } from "@/shared/types";
-import { sendTot } from "../actions/send-tot";
+import { createTot } from "../actions/create-tot";
 
 export const editorSchema = z.object({
   tots: z.string().min(1, { message: "C'mon now, Tots can't be empty." }),
@@ -36,7 +36,7 @@ export const TotsEditorForm = () => {
 
     try {
       const response: ServerActionResponse | ServerActionResponse<Tots> =
-        await sendTot(values);
+        await createTot(values);
 
       if (response.status === "success") {
         console.log(response.message); //! TBR
