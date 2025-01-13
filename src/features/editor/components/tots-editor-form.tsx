@@ -13,7 +13,10 @@ import {
   FormField,
   FormItem,
 } from "@/shared/components/form";
-import { editorSchema } from "../schemas/zod-schema";
+
+export const editorSchema = z.object({
+  tots: z.string().min(1, { message: "C'mon now, Tots can't be empty." }),
+});
 
 type EditorFormType = z.infer<typeof editorSchema>;
 
