@@ -26,7 +26,6 @@ import { ServerActionResponse } from "@/shared/types";
 import { instrument } from "@/styles/fonts";
 import { useQuery } from "@tanstack/react-query";
 import { createUsername } from "../actions/create-username";
-import { usernameSchema } from "../schemas/username-schema";
 
 const createUsernameBtnCopy = {
   idle: "Create Username",
@@ -40,6 +39,21 @@ const signOutBtnCopy = {
   success: "Sign out successful!",
   error: "Something went wrong",
 };
+
+export const usernameSchema = (usernames: string[]) =>
+  z.object({
+    username: z
+      .string({ required_error: "Username is required" })
+      .trim()
+      .min(5, { message: "Username must be 5 or more characters long" })
+      .max(15, { message: "Username must be 15 or fewer characters long" })
+      .regex(/^[a-zA-Z0-9_]+$/, {
+        message: "Username can only contain letters, numbers, and underscores",
+      })
+      .refine((username) => !usernames.includes(username?.toLowerCase()), {
+        message: "This username has already been taken",
+      }),
+  });
 
 type UsernameFormType = z.infer<ReturnType<typeof usernameSchema>>;
 

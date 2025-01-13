@@ -8,7 +8,7 @@ import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { getUser, getUserByUsername } from "../../../shared/actions/get-user";
 import db from "../../../shared/lib/db/prisma";
 import { ServerActionResponse } from "../../../shared/types";
-import { usernameSchema } from "../schemas/username-schema";
+import { usernameSchema } from "../components/create-username-form";
 
 export const createUsername = async (
   values: z.infer<ReturnType<typeof usernameSchema>>,
