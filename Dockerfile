@@ -37,14 +37,13 @@ RUN corepack enable pnpm && pnpm run build
 FROM base AS runner
 WORKDIR /app
 
-# Environment variables for production
 ENV NODE_ENV=production \
     HOSTNAME="0.0.0.0" \
-    PORT=3005
+    PORT=3000
 
-#  Create a non-root user
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nextjs
+# Create a non-root user
+RUN addgroup -g 1001 -S nodejs
+RUN adduser -S nextjs -u 1001
 
 # Copy only necessary files for runtime
 COPY --from=builder /app/public ./public
