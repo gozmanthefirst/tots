@@ -1,26 +1,15 @@
 "use server";
 
-// External Imports
-import { z } from "zod";
-
 // Local Imports
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { getUser, getUserByUsername } from "../../../shared/actions/get-user";
 import db from "../../../shared/lib/db/prisma";
 import { ServerActionResponse } from "../../../shared/types";
-import { usernameSchema } from "../components/create-username-form";
 
-export const createUsername = async (
-  values: z.infer<ReturnType<typeof usernameSchema>>,
-  usernames: string[],
-): Promise<ServerActionResponse> => {
-  const validatedFields = usernameSchema(usernames).safeParse(values);
-
-  if (!validatedFields.success) {
-    return { status: "error", message: "Invalid fields!" };
-  }
-
-  const { username } = validatedFields.data;
+export const createUsername = async (values: {
+  username: string;
+}): Promise<ServerActionResponse> => {
+  const { username } = values;
 
   const [{ data: existingUser }, { data: user }] = await Promise.all([
     runParallelAction(getUserByUsername(username)),
