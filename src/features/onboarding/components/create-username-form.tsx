@@ -2,6 +2,7 @@
 
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
 import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -24,7 +25,6 @@ import { cn } from "@/shared/lib/utils/cn";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 import { instrument } from "@/styles/fonts";
-import { useQuery } from "@tanstack/react-query";
 import { createUsername } from "../actions/create-username";
 
 const createUsernameBtnCopy = {
@@ -108,10 +108,7 @@ export const CreateUsernameForm = () => {
   const onSubmit = async (values: UsernameFormType) => {
     try {
       setCreateUsernameBtnState("loading");
-      const response: ServerActionResponse = await createUsername(
-        values,
-        validUsernames!,
-      );
+      const response: ServerActionResponse = await createUsername(values);
 
       if (response.status === "success") {
         setCreateUsernameBtnState("success");
