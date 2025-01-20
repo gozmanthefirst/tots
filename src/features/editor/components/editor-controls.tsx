@@ -33,6 +33,7 @@ export const EditorControls = ({ editor }: Props) => {
       <div className="flex items-center justify-center gap-1">
         {/* H1 */}
         <Button
+          type="button"
           onClick={() => {
             if (editor.isActive("heading", { level: 2 })) {
               editor.chain().focus().toggleHeading({ level: 2 }).run();
@@ -48,6 +49,7 @@ export const EditorControls = ({ editor }: Props) => {
 
         {/* H2 */}
         <Button
+          type="button"
           onClick={() => {
             if (editor.isActive("heading", { level: 1 })) {
               editor.chain().focus().toggleHeading({ level: 1 }).run();
@@ -68,6 +70,7 @@ export const EditorControls = ({ editor }: Props) => {
       <div className="flex items-center justify-center gap-1">
         {/* Bold */}
         <Button
+          type="button"
           onClick={() => {
             editor.chain().focus().toggleBold().run();
           }}
@@ -79,6 +82,7 @@ export const EditorControls = ({ editor }: Props) => {
 
         {/* Italic */}
         <Button
+          type="button"
           onClick={() => {
             editor.chain().focus().toggleItalic().run();
           }}
@@ -90,6 +94,7 @@ export const EditorControls = ({ editor }: Props) => {
 
         {/* Underline */}
         <Button
+          type="button"
           onClick={() => {
             editor.chain().focus().toggleUnderline().run();
           }}
@@ -101,6 +106,7 @@ export const EditorControls = ({ editor }: Props) => {
 
         {/* Strikethrough */}
         <Button
+          type="button"
           onClick={() => {
             editor.chain().focus().toggleStrike().run();
           }}
@@ -117,6 +123,7 @@ export const EditorControls = ({ editor }: Props) => {
       <div className="flex items-center justify-center gap-1">
         {/* Bullet List */}
         <Button
+          type="button"
           onClick={() => {
             editor.chain().focus().toggleBulletList().run();
           }}
@@ -128,6 +135,7 @@ export const EditorControls = ({ editor }: Props) => {
 
         {/* Ordered List */}
         <Button
+          type="button"
           onClick={() => {
             editor.chain().focus().toggleOrderedList().run();
           }}

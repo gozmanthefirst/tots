@@ -12,7 +12,6 @@ import { TotsEditorForm } from "@/features/editor/components/tots-editor-form";
 import { getTots } from "@/features/tots/actions/get-tots";
 import { TotsHeader } from "@/features/tots/components/tots-header";
 import { getUser } from "@/shared/actions/get-user";
-import { Container } from "@/shared/components/container";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 
 type Params = Promise<{ username: string }>;
@@ -45,11 +44,11 @@ const TotsLayout = async ({ children, params }: Props) => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <Container className="relative flex min-h-dvh flex-col">
+      <div className="flex min-h-dvh flex-col">
         <TotsHeader />
-        <div className="flex-1">{children}</div>
+        <main className="flex-1">{children}</main>
         <TotsEditorForm />
-      </Container>
+      </div>
     </HydrationBoundary>
   );
 };

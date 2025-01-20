@@ -1,11 +1,12 @@
 // Local Imports
 import { Tots } from "@/features/tots/components/tots";
+import { Container } from "@/shared/components/container";
 
 const TotsPage = async () => {
   return (
-    <main className="h-96 py-4">
+    <Container className="py-4">
       <Tots />
-    </main>
+    </Container>
   );
 };
 
