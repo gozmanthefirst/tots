@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
 import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
+import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
 
 // Local Imports
@@ -20,7 +21,6 @@ import {
   FormMessage,
 } from "@/shared/components/form";
 import { Input } from "@/shared/components/input";
-import { Spinner } from "@/shared/components/spinner";
 import { cn } from "@/shared/lib/utils/cn";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
@@ -29,13 +29,13 @@ import { createUsername } from "../actions/create-username";
 
 const createUsernameBtnCopy = {
   idle: "Create Username",
-  loading: <Spinner color="#0F0F0F" />,
+  loading: <RotatingLines visible width="18" strokeColor="#0F0F0F" />,
   success: "Username created!",
   error: "Something went wrong",
 };
 const signOutBtnCopy = {
   idle: "Back to sign in",
-  loading: <Spinner color="#E5E999" />,
+  loading: <RotatingLines visible width="18" strokeColor="#E5E999" />,
   success: "Sign out successful!",
   error: "Something went wrong",
 };

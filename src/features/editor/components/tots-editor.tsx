@@ -30,7 +30,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
         },
         paragraph: {
           HTMLAttributes: {
-            class: "text-sm pb-2 md:text-[15px]/[22px]",
+            class: "text-sm pb-1.5 md:text-[15px]/[22px]",
           },
         },
         bulletList: {
