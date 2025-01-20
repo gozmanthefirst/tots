@@ -9,6 +9,7 @@ import { useState } from "react";
 // Local Imports
 import { signOut } from "@/features/auth/actions/sign-out";
 import { Button } from "@/shared/components/button";
+import { Container } from "@/shared/components/container";
 import { Spinner } from "@/shared/components/spinner";
 import { cn } from "@/shared/lib/utils/cn";
 
@@ -53,42 +54,44 @@ export const TotsHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 py-6">
-      <div className="flex items-center justify-between">
-        <Link href={"/"}>
-          <div className="relative size-10">
-            <Image
-              src={"/images/logo.png"}
-              alt="Logo"
-              fill
-              className="shadow-md"
-            />
-          </div>
-        </Link>
+    <Container className="sticky top-0 z-50">
+      <header className="py-6">
+        <div className="flex items-center justify-between">
+          <Link href={"/"}>
+            <div className="relative size-10">
+              <Image
+                src={"/images/logo.png"}
+                alt="Logo"
+                fill
+                className="shadow-md"
+              />
+            </div>
+          </Link>
 
-        <div>
-          <Button
-            variant={"secondary"}
-            size={"sm"}
-            disabled={signOutBtnState !== "idle"}
-            onClick={handleSignOut}
-            className={cn("relative overflow-hidden w-32")}
-          >
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.div
-                key={signOutBtnState}
-                transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-                initial="initial"
-                animate="visible"
-                exit="exit"
-                variants={variants}
-              >
-                {buttonCopy[signOutBtnState]}
-              </motion.div>
-            </AnimatePresence>
-          </Button>
+          <div>
+            <Button
+              variant={"secondary"}
+              size={"sm"}
+              disabled={signOutBtnState !== "idle"}
+              onClick={handleSignOut}
+              className={cn("relative w-32 overflow-hidden")}
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.div
+                  key={signOutBtnState}
+                  transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+                  initial="initial"
+                  animate="visible"
+                  exit="exit"
+                  variants={variants}
+                >
+                  {buttonCopy[signOutBtnState]}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
+          </div>
         </div>
-      </div>
-    </header>
+      </header>
+    </Container>
   );
 };

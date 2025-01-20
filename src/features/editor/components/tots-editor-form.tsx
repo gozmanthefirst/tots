@@ -8,6 +8,7 @@ import { z } from "zod";
 
 // Local Imports
 import { TotsEditor } from "@/features/editor/components/tots-editor";
+import { Container } from "@/shared/components/container";
 import {
   Form,
   FormControl,
@@ -17,7 +18,7 @@ import {
 import { ServerActionResponse } from "@/shared/types";
 import { createTot } from "../actions/create-tot";
 
-export const editorSchema = z.object({
+const editorSchema = z.object({
   tots: z.string().min(1, { message: "C'mon now, Tots can't be empty." }),
 });
 
@@ -52,26 +53,28 @@ export const TotsEditorForm = () => {
   };
 
   return (
-    <section className="sticky bottom-0 mx-auto my-4 h-full w-full max-w-2xl md:my-6">
-      <Form {...form}>
-        <form
-          id="tots-editor"
-          onSubmit={form.handleSubmit(onSubmit)}
-          className="flex flex-col gap-6"
-        >
-          <FormField
-            control={form.control}
-            name="tots"
-            render={({ field }) => (
-              <FormItem>
-                <FormControl>
-                  <TotsEditor tots={field.value} onChange={field.onChange} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </form>
-      </Form>
-    </section>
+    <Container className="sticky bottom-0 z-50">
+      <section className="mx-auto h-full w-full max-w-2xl py-3 md:py-4">
+        <Form {...form}>
+          <form
+            id="tots-editor"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-6"
+          >
+            <FormField
+              control={form.control}
+              name="tots"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <TotsEditor tots={field.value} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
+      </section>
+    </Container>
   );
 };

@@ -65,7 +65,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
   }
 
   return (
-    <div className="bg-background">
+    <div className="bg-background rounded-2xl md:rounded-3xl">
       <motion.div
         initial={{
           opacity: 0,

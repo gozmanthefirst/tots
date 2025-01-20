@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 // Local Imports
 import QueryProvider from "@/providers/query-provider";
-import { ScreenSize } from "@/shared/components/screen-size";
+import { cn } from "@/shared/lib/utils/cn";
 import { geist } from "@/styles/fonts";
 import "@/styles/globals.css";
 
@@ -19,9 +19,12 @@ interface Props {
 
 const RootLayout = ({ children }: Props) => {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
-        className={`${geist.className} bg-background text-foreground antialiased`}
+        className={cn(
+          `bg-background text-foreground antialiased`,
+          geist.className,
+        )}
       >
         {/* <ScreenSize /> */}
         <QueryProvider>{children}</QueryProvider>
