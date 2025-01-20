@@ -63,7 +63,9 @@ describe("Sign In Form", () => {
           provider: "google",
         });
         expect(btn).toBeDisabled();
-        expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
+        
+        // This is commented out because I stopped using the DIY loading spinner since it's a hack and therefore kinda messy. An alternative test for this will be found.
+        // expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
       });
     });
 

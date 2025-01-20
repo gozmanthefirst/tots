@@ -4,10 +4,10 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
 import { TbBrandGoogleFilled } from "react-icons/tb";
+import { RotatingLines } from "react-loader-spinner";
 
 // Local Imports
 import { Button } from "@/shared/components/button";
-import { Spinner } from "@/shared/components/spinner";
 import { cn } from "@/shared/lib/utils/cn";
 import { instrument } from "@/styles/fonts";
 import { signInWithGoogle } from "../actions/sign-in";
@@ -19,7 +19,7 @@ const buttonCopy = {
       <span>Continue with Google</span>
     </div>
   ),
-  loading: <Spinner color="#E5E999" />,
+  loading: <RotatingLines visible width="18" strokeColor="#E5E999" />,
   success: "Signing in...",
   error: "Something went wrong",
 };
@@ -37,11 +37,12 @@ export const SignInForm = () => {
       </h1>
 
       {/* OAuth Buttons */}
-      {/* Large Screens */}
-      <SignInButton size="xl" />
-
-      {/* Small Screens */}
-      <SignInButton size="lg" />
+      <>
+        {/* Large Screens */}
+        <SignInButton size="xl" />
+        {/* Small Screens */}
+        <SignInButton size="lg" />
+      </>
     </div>
   );
 };
