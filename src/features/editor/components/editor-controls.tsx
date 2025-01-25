@@ -148,7 +148,7 @@ export const EditorControls = ({ editor }: Props) => {
 
       <Button
         size="icon"
-        form="tots-editor"
+        form="tot-editor"
         variant="ghost"
         className="ml-auto h-auto w-auto rounded-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand-400"
         aria-label="Submit Content"

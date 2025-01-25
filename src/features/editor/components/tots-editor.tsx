@@ -65,34 +65,32 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
   }
 
   return (
-    <div className="bg-background rounded-2xl md:rounded-3xl">
-      <motion.div
-        initial={{
-          opacity: 0,
-          y: 30,
-          filter: "blur(4px)",
-          scale: 0.95,
-        }}
-        animate={{
-          opacity: 1,
-          y: 0,
-          filter: "blur(0px)",
-          scale: 1,
-        }}
-        transition={{
-          type: "spring",
-          bounce: 0.4,
-          duration: 0.5,
-        }}
-        className={cn(
-          "relative rounded-2xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 shadow-sm transition-colors placeholder:text-neutral-500 hover:border-neutral-700/70 has-focus-visible:border-brand-400 has-focus-visible:ring-4 has-focus-visible:ring-brand-400/20 has-focus-visible:outline-hidden md:rounded-3xl",
-          !!error &&
-            "border-red-900 hover:border-red-800 has-focus-visible:border-red-500 has-focus-visible:ring-red-500/20",
-        )}
-      >
-        <EditorContent editor={editor} />
-        <EditorControls editor={editor} />
-      </motion.div>
-    </div>
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: 30,
+        filter: "blur(4px)",
+        scale: 0.95,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+        filter: "blur(0px)",
+        scale: 1,
+      }}
+      transition={{
+        type: "spring",
+        bounce: 0.4,
+        duration: 0.5,
+      }}
+      className={cn(
+        "relative rounded-2xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 shadow-2xl backdrop-blur-xl transition-colors placeholder:text-neutral-500 hover:border-neutral-700/70 has-focus-visible:border-brand-400 has-focus-visible:ring-4 has-focus-visible:ring-brand-400/20 has-focus-visible:outline-hidden md:rounded-3xl",
+        !!error &&
+          "border-red-900 hover:border-red-800 has-focus-visible:border-red-500 has-focus-visible:ring-red-500/20",
+      )}
+    >
+      <EditorContent editor={editor} />
+      <EditorControls editor={editor} />
+    </motion.div>
   );
 };
