@@ -7,7 +7,7 @@ model User {
   createdAt     DateTime
   updatedAt     DateTime
   username      String?   @unique
-  tots          Tots[]
+  tots          Tot[]
   sessions      Session[]
   accounts      Account[]
 

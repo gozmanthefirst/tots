@@ -1,4 +1,4 @@
-model Tots {
+model Tot {
   id        String   @id @default(cuid())
   content   String
   createdAt DateTime @default(now())
