@@ -54,10 +54,10 @@ export const TotsHeader = () => {
   };
 
   return (
-    <Container className="sticky top-0 z-50">
+    <Container className="pointer-events-none sticky top-0 z-50">
       <header className="py-6">
         <div className="flex items-center justify-between">
-          <Link href={"/"}>
+          <Link href={"/"} className="pointer-events-auto">
             <div className="relative size-10">
               <Image
                 src={"/images/logo.png"}
@@ -68,7 +68,7 @@ export const TotsHeader = () => {
             </div>
           </Link>
 
-          <div>
+          <div className="pointer-events-auto">
             <Button
               variant={"secondary"}
               size={"sm"}
