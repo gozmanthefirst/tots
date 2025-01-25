@@ -1,7 +1,7 @@
 "use server";
 
 // External Imports
-import { Tots } from "@prisma/client";
+import { Tot } from "@prisma/client";
 
 // Local Imports
 import { getUser } from "@/shared/actions/get-user";
@@ -14,7 +14,7 @@ import { ServerActionResponse } from "@/shared/types";
 
 // get tots
 export const getTots = createParallelAction(
-  async (): Promise<ServerActionResponse | ServerActionResponse<Tots[]>> => {
+  async (): Promise<ServerActionResponse | ServerActionResponse<Tot[]>> => {
     try {
       const [{ data: user }] = await Promise.all([
         runParallelAction(getUser()),
@@ -27,7 +27,7 @@ export const getTots = createParallelAction(
         };
       }
 
-      const tots = await db.tots.findMany({
+      const tots = await db.tot.findMany({
         where: {
           userId: user.id,
         },

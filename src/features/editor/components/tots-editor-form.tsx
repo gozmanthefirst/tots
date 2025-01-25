@@ -2,7 +2,7 @@
 
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Tots } from "@prisma/client";
+import { Tot } from "@prisma/client";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -19,7 +19,9 @@ import { ServerActionResponse } from "@/shared/types";
 import { createTot } from "../actions/create-tot";
 
 const editorSchema = z.object({
-  tots: z.string().min(1, { message: "C'mon now, Tots can't be empty." }),
+  tot: z
+    .string()
+    .min(1, { message: "C'mon now, surely your Tot can't be blank." }),
 });
 
 type EditorFormType = z.infer<typeof editorSchema>;
@@ -28,15 +30,15 @@ export const TotsEditorForm = () => {
   const form = useForm<EditorFormType>({
     resolver: zodResolver(editorSchema),
     defaultValues: {
-      tots: "",
+      tot: "",
     },
   });
 
   const onSubmit = async (values: EditorFormType) => {
-    console.log(values.tots); //! TBR
+    console.log(values.tot); //! TBR
 
     try {
-      const response: ServerActionResponse | ServerActionResponse<Tots> =
+      const response: ServerActionResponse | ServerActionResponse<Tot> =
         await createTot(values);
 
       if (response.status === "success") {
@@ -57,13 +59,13 @@ export const TotsEditorForm = () => {
       <section className="mx-auto h-full w-full max-w-2xl py-3 md:py-4">
         <Form {...form}>
           <form
-            id="tots-editor"
+            id="tot-editor"
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex flex-col gap-6"
           >
             <FormField
               control={form.control}
-              name="tots"
+              name="tot"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
