@@ -22,7 +22,6 @@ export const Tots = () => {
   return (
     <div className="mx-auto flex h-full max-w-2xl flex-col gap-6">
       {tots
-        ?.slice(0, 2)
         ?.map((tot) => (
           <SingleTot
             key={tot.id}
