@@ -24,7 +24,7 @@ import { Input } from "@/shared/components/input";
 import { cn } from "@/shared/lib/utils/cn";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
-import { instrument } from "@/styles/fonts";
+import { instrumentSerif } from "@/styles/fonts";
 import { createUsername } from "../actions/create-username";
 
 const createUsernameBtnCopy = {
@@ -132,7 +132,7 @@ export const CreateUsernameForm = () => {
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
-          instrument.className,
+          instrumentSerif.className,
         )}
       >
         Create <span className="italic">Username</span>

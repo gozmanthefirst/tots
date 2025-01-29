@@ -9,7 +9,7 @@ import { RotatingLines } from "react-loader-spinner";
 // Local Imports
 import { Button } from "@/shared/components/button";
 import { cn } from "@/shared/lib/utils/cn";
-import { instrument } from "@/styles/fonts";
+import { instrumentSerif } from "@/styles/fonts";
 import { signInWithGoogle } from "../actions/sign-in";
 
 const buttonCopy = {
@@ -30,7 +30,7 @@ export const SignInForm = () => {
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
-          instrument.className,
+          instrumentSerif.className,
         )}
       >
         Sign in to <span className="italic">Tots</span>

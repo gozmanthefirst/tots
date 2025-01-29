@@ -5,7 +5,7 @@ import { ReactNode } from "react";
 // Local Imports
 import QueryProvider from "@/providers/query-provider";
 import { cn } from "@/shared/lib/utils/cn";
-import { geist } from "@/styles/fonts";
+import { instrumentSans } from "@/styles/fonts";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
@@ -23,7 +23,7 @@ const RootLayout = ({ children }: Props) => {
       <body
         className={cn(
           `bg-background text-foreground antialiased`,
-          geist.className,
+          instrumentSans.className,
         )}
       >
         {/* <ScreenSize /> */}
