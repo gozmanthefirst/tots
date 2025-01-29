@@ -4,7 +4,7 @@ import Link from "next/link";
 // Local Imports
 import { buttonVariants } from "@/shared/components/button";
 import { cn } from "@/shared/lib/utils/cn";
-import { instrument } from "@/styles/fonts";
+import { instrumentSerif } from "@/styles/fonts";
 
 export const WelcomeContent = () => {
   return (
@@ -12,7 +12,7 @@ export const WelcomeContent = () => {
       <h1
         className={cn(
           "text-4xl text-brand-400 md:text-5xl",
-          instrument.className,
+          instrumentSerif.className,
         )}
       >
         Effortlessly capture your <span className="italic">tots</span> as they
