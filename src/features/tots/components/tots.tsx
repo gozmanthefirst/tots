@@ -3,20 +3,19 @@
 // External Imports
 import { Tot } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { useClickAway } from "@uidotdev/usehooks";
 import { AnimatePresence, motion } from "motion/react";
 import { Dispatch, SetStateAction, useState } from "react";
+import { TbCopy, TbEdit, TbTrash, TbX } from "react-icons/tb";
 
 // Local Imports
+import { useDisableScroll } from "@/shared/hooks/use-disable-scroll";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
-import { TbCopy, TbEdit, TbTrash, TbX } from "react-icons/tb";
 import { getTots } from "../actions/get-tots";
 
 export const Tots = () => {
   const [activeTot, setActiveTot] = useState<Tot | null>(null);
-  const ref = useClickAway<HTMLDivElement>(() => {
-    setActiveTot(null);
-  });
+
+  useDisableScroll(activeTot !== null);
 
   // Fetch Tots
   const { data: { data: tots } = {} } = useQuery({
@@ -61,6 +60,7 @@ export const Tots = () => {
                 duration: 0.4,
                 bounce: 0.4,
               }}
+              onClick={() => setActiveTot(null)}
               className="fixed inset-0 z-100 bg-black/50"
             />
 
@@ -83,6 +83,7 @@ export const Tots = () => {
                 duration: 0.4,
                 bounce: 0.3,
               }}
+              onClick={() => setActiveTot(null)}
               className="fixed right-0 bottom-0 left-0 z-100 px-4"
             >
               <div className="mx-auto my-3 flex h-full max-w-2xl flex-col gap-2.5 md:my-4">
@@ -111,7 +112,10 @@ export const Tots = () => {
                   className="flex items-center justify-between gap-2"
                 >
                   <div
-                    ref={ref}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveTot(null);
+                    }}
                     className="relative z-5 flex gap-3 self-end rounded-xl border border-neutral-800 bg-neutral-900 p-2.5 text-neutral-400"
                   >
                     <TbX
@@ -121,7 +125,7 @@ export const Tots = () => {
                     />
                   </div>
                   <div
-                    ref={ref}
+                    onClick={(e) => e.stopPropagation()}
                     className="relative z-5 flex gap-3 self-end rounded-xl border border-neutral-800 bg-neutral-900 p-2.5 text-neutral-400"
                   >
                     <TbCopy
@@ -141,8 +145,7 @@ export const Tots = () => {
 
                 {/* Content */}
                 <div
-                  ref={ref}
-                  // onClick={(e) => e.preventDefault()}
+                  onClick={(e) => e.stopPropagation()}
                   className="relative z-10 cursor-default rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-neutral-300 shadow-sm transition duration-200 md:rounded-3xl md:p-5 lg:hover:border-neutral-700/70 lg:hover:shadow-lg"
                 >
                   <div
