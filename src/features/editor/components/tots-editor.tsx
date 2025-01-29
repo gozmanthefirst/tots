@@ -84,7 +84,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
         duration: 0.5,
       }}
       className={cn(
-        "relative rounded-2xl border border-neutral-800 bg-neutral-800/50 text-neutral-300 shadow-2xl backdrop-blur-xl transition-colors placeholder:text-neutral-500 hover:border-neutral-700/70 has-focus-visible:border-brand-400 has-focus-visible:ring-4 has-focus-visible:ring-brand-400/20 has-focus-visible:outline-hidden md:rounded-3xl",
+        "relative rounded-2xl border border-brand-400/30 bg-neutral-800/50 text-neutral-300 shadow-2xl backdrop-blur-xl transition-colors placeholder:text-neutral-500 hover:border-brand-400/50 has-focus-visible:border-brand-400 has-focus-visible:ring-4 has-focus-visible:ring-brand-400/20 has-focus-visible:outline-hidden md:rounded-3xl",
         !!error &&
           "border-red-900 hover:border-red-800 has-focus-visible:border-red-500 has-focus-visible:ring-red-500/20",
       )}
