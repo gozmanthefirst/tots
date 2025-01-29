@@ -55,7 +55,7 @@ export const TotsEditorForm = () => {
   };
 
   return (
-    <Container className="sticky bottom-0 z-50">
+    <Container className="sticky bottom-0 z-20">
       <section className="mx-auto h-full w-full max-w-2xl py-3 md:py-4">
         <Form {...form}>
           <form
