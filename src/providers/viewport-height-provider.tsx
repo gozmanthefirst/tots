@@ -28,7 +28,7 @@ export const ViewportHeightProvider = ({
       window.addEventListener("resize", updateHeight);
     }
 
-    // Cleanup
+    // Cleanup useEffect
     return () => {
       window.visualViewport?.removeEventListener("resize", updateHeight);
       window.removeEventListener("resize", updateHeight);
