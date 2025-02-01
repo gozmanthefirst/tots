@@ -3,6 +3,7 @@
 // External Imports
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tot } from "@prisma/client";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -27,6 +28,23 @@ const editorSchema = z.object({
 type EditorFormType = z.infer<typeof editorSchema>;
 
 export const TotsEditorForm = () => {
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.visualViewport) return;
+
+    const viewport = window.visualViewport;
+
+    const handleResize = () => {
+      // Calculate keyboard height
+      const newKeyboardHeight = window.innerHeight - viewport.height;
+      setKeyboardHeight(newKeyboardHeight > 0 ? newKeyboardHeight : 0);
+    };
+
+    viewport.addEventListener("resize", handleResize);
+    return () => viewport.removeEventListener("resize", handleResize);
+  }, []);
+
   const form = useForm<EditorFormType>({
     resolver: zodResolver(editorSchema),
     defaultValues: {
@@ -55,7 +73,12 @@ export const TotsEditorForm = () => {
   };
 
   return (
-    <Container className="sticky bottom-0 z-20">
+    <Container
+      className="sticky z-20"
+      style={{
+        bottom: keyboardHeight,
+      }}
+    >
       <section className="mx-auto h-full w-full max-w-2xl py-3 md:py-4">
         <Form {...form}>
           <form
