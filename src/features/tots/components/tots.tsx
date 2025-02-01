@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { TbCopy, TbEdit, TbTrash, TbX } from "react-icons/tb";
 
 // Local Imports
+import { HtmlRenderer } from "@/shared/components/html-renderer";
 import { useDisableScroll } from "@/shared/hooks/use-disable-scroll";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { getTots } from "../actions/get-tots";
@@ -116,12 +117,12 @@ export const Tots = () => {
                       e.stopPropagation();
                       setActiveTot(null);
                     }}
-                    className="relative z-5 flex gap-3 self-end rounded-xl border border-neutral-800 bg-neutral-900 p-2.5 text-neutral-400"
+                    className="relative z-5 flex cursor-pointer gap-3 self-end rounded-xl border border-neutral-800 bg-neutral-900 p-2.5 text-neutral-400 lg:hover:text-neutral-200"
                   >
                     <TbX
                       size={20}
                       strokeWidth={3}
-                      className="cursor-pointer transition duration-200 lg:hover:text-neutral-200"
+                      className="transition duration-200"
                     />
                   </div>
                   <div
@@ -146,11 +147,9 @@ export const Tots = () => {
                 {/* Content */}
                 <div
                   onClick={(e) => e.stopPropagation()}
-                  className="relative z-10 cursor-default rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-neutral-300 shadow-sm transition duration-200 md:rounded-3xl md:p-5 lg:hover:border-neutral-700/70 lg:hover:shadow-lg"
+                  className="relative z-10 rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-neutral-300 shadow-sm transition duration-200 md:rounded-3xl md:p-5 lg:hover:border-neutral-700/70 lg:hover:shadow-lg"
                 >
-                  <div
-                    dangerouslySetInnerHTML={{ __html: activeTot.content }}
-                  />
+                  <HtmlRenderer html={activeTot.content} />
                 </div>
               </div>
             </motion.div>
@@ -171,9 +170,9 @@ const SingleTot = ({ tot, activeTot, setActiveTot }: Props) => {
   return (
     <div
       onClick={() => setActiveTot(activeTot ? null : tot)}
-      className="relative z-10 cursor-pointer rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-neutral-300 shadow-sm transition duration-200 md:rounded-3xl md:p-5 lg:hover:border-neutral-700/70 lg:hover:shadow-lg"
+      className="relative z-10 cursor-pointer rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:rounded-3xl md:p-5 lg:hover:border-neutral-700/70 lg:hover:shadow-lg"
     >
-      <div dangerouslySetInnerHTML={{ __html: tot.content }} />
+      <HtmlRenderer html={tot.content} />
     </div>
   );
 };
