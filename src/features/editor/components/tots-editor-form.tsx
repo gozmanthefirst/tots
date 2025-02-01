@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Tot } from "@prisma/client";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import useMeasure from "react-use-measure";
 import { z } from "zod";
 
 // Local Imports
@@ -29,6 +30,8 @@ type EditorFormType = z.infer<typeof editorSchema>;
 
 export const TotsEditorForm = () => {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  const [ref, bounds] = useMeasure();
 
   useEffect(() => {
     if (typeof window === "undefined" || !window.visualViewport) return;
@@ -73,33 +76,45 @@ export const TotsEditorForm = () => {
   };
 
   return (
-    <Container
-      className="sticky z-20"
-      style={{
-        bottom: keyboardHeight,
-      }}
-    >
-      <section className="mx-auto h-full w-full max-w-2xl py-3 md:py-4">
-        <Form {...form}>
-          <form
-            id="tot-editor"
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-6"
-          >
-            <FormField
-              control={form.control}
-              name="tot"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <TotsEditor tots={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-      </section>
-    </Container>
+    <>
+      <div
+        style={{
+          height: bounds.height,
+        }}
+      />
+
+      <Container
+        className="fixed right-0 left-0 z-20 border"
+        ref={ref}
+        style={{
+          bottom: keyboardHeight,
+        }}
+      >
+        <section className="mx-auto h-full w-full max-w-2xl py-3 md:py-4">
+          <Form {...form}>
+            <form
+              id="tot-editor"
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="flex flex-col gap-6"
+            >
+              <FormField
+                control={form.control}
+                name="tot"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <TotsEditor
+                        tots={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+            </form>
+          </Form>
+        </section>
+      </Container>
+    </>
   );
 };
