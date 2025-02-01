@@ -22,7 +22,7 @@ const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en" className="dark">
       <ViewportHeightProvider>
-        <body
+        <div
           className={cn(
             `bg-background text-foreground antialiased`,
             instrumentSans.className,
@@ -30,7 +30,7 @@ const RootLayout = ({ children }: Props) => {
         >
           {/* <ScreenSize /> */}
           <QueryProvider>{children}</QueryProvider>
-        </body>
+        </div>
       </ViewportHeightProvider>
     </html>
   );

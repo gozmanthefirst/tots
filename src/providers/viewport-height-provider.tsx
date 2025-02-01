@@ -36,8 +36,8 @@ export const ViewportHeightProvider = ({
   }, []);
 
   return (
-    <div style={{ height: `${viewportHeight}px`, overflow: "auto" }}>
+    <body style={{ height: `${viewportHeight}px`, overflow: "auto" }}>
       {children}
-    </div>
+    </body>
   );
 };
