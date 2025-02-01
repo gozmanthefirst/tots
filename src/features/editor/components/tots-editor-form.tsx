@@ -84,7 +84,7 @@ export const TotsEditorForm = () => {
       />
 
       <Container
-        className="fixed right-0 left-0 z-20 border"
+        className="fixed right-0 left-0 z-20"
         ref={ref}
         style={{
           bottom: keyboardHeight,
