@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 
 // Local Imports
 import QueryProvider from "@/providers/query-provider";
-import { ViewportHeightProvider } from "@/providers/viewport-height-provider";
 import { cn } from "@/shared/lib/utils/cn";
 import { instrumentSans } from "@/styles/fonts";
 import "@/styles/globals.css";
@@ -21,17 +20,15 @@ interface Props {
 const RootLayout = ({ children }: Props) => {
   return (
     <html lang="en" className="dark">
-      <ViewportHeightProvider>
-        <div
-          className={cn(
-            `bg-background text-foreground antialiased`,
-            instrumentSans.className,
-          )}
-        >
-          {/* <ScreenSize /> */}
-          <QueryProvider>{children}</QueryProvider>
-        </div>
-      </ViewportHeightProvider>
+      <body
+        className={cn(
+          `bg-background text-foreground antialiased`,
+          instrumentSans.className,
+        )}
+      >
+        {/* <ScreenSize /> */}
+        <QueryProvider>{children}</QueryProvider>
+      </body>
     </html>
   );
 };
