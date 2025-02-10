@@ -11,6 +11,7 @@ import { ReactNode } from "react";
 import { TotsEditorForm } from "@/features/editor/components/tots-editor-form";
 import { getTots } from "@/features/tots/actions/get-tots";
 import { TotsHeader } from "@/features/tots/components/tots-header";
+import { DrawerProvider } from "@/providers/drawer-provider";
 import { getUser } from "@/shared/actions/get-user";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 
@@ -49,6 +50,7 @@ const TotsLayout = async ({ children, params }: Props) => {
         <main className="flex-1">{children}</main>
         <TotsEditorForm />
       </div>
+      <DrawerProvider />
     </HydrationBoundary>
   );
 };
