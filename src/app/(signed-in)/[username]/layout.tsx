@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 import { ReactNode } from "react";
 
 // Local Imports
-import { TotsEditorForm } from "@/features/editor/components/tots-editor-form";
+import { OpenEditorBtn } from "@/features/editor/components/open-editor-btn";
 import { getTots } from "@/features/tots/actions/get-tots";
 import { TotsHeader } from "@/features/tots/components/tots-header";
 import { DrawerProvider } from "@/providers/drawer-provider";
@@ -48,7 +48,8 @@ const TotsLayout = async ({ children, params }: Props) => {
       <div className="flex flex-col">
         <TotsHeader />
         <main className="flex-1">{children}</main>
-        <TotsEditorForm />
+        {/* <TotsEditorForm /> */}
+        <OpenEditorBtn />
       </div>
       <DrawerProvider />
     </HydrationBoundary>
