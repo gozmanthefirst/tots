@@ -15,7 +15,7 @@ COPY pnpm-lock.yaml package.json ./
 COPY prisma ./prisma
 
 # Install dependencies
-RUN corepack enable pnpm && \
+RUN npm install -g pnpm && \
     pnpm install --frozen-lockfile
 
 # Generate Prisma client
@@ -31,7 +31,7 @@ COPY --from=deps /app/prisma ./prisma
 COPY . .
 
 # Build application
-RUN corepack enable pnpm && pnpm run build
+RUN npm install -g pnpm && pnpm run build
 
 # Production stage with only essential files
 FROM base AS runner

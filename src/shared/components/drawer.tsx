@@ -22,7 +22,7 @@ const DrawerOverlay = forwardRef<
   <DrawerPrimitive.Overlay
     ref={ref}
     className={cn(
-      "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/50",
+      "data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:animate-in data-[state=open]:fade-in-0 fixed inset-0 z-95 bg-black/50",
       className,
     )}
     {...props}
@@ -40,7 +40,7 @@ const DrawerContent = forwardRef<
     <DrawerPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed right-0 bottom-0 left-0 h-fit bg-neutral-800/50 outline-0 backdrop-blur-xl transition duration-200 outline-none",
+        "fixed bottom-0 z-100 h-fit w-full max-w-3xl rounded-t-2xl bg-neutral-800/50 outline-0 backdrop-blur-xl transition duration-200 outline-none md:rounded-t-3xl",
         className,
       )}
       {...props}

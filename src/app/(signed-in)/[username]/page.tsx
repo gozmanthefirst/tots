@@ -1,12 +1,14 @@
 // Local Imports
 import { Tots } from "@/features/tots/components/tots";
-import { Container } from "@/shared/components/container";
+import { TotsPageWrapper } from "@/features/tots/components/tots-page-wrapper";
 
 const TotsPage = async () => {
   return (
-    <Container className="py-4">
-      <Tots />
-    </Container>
+    <TotsPageWrapper>
+      <div className="mx-4">
+        <Tots />
+      </div>
+    </TotsPageWrapper>
   );
 };
 
