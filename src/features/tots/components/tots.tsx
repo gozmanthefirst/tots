@@ -62,7 +62,7 @@ export const Tots = () => {
   return (
     <>
       {/* Tots */}
-      <ul className="relative mx-auto flex h-full max-w-2xl flex-col gap-6">
+      <ul className="relative mx-auto flex h-full max-w-2xl flex-col gap-4">
         {tots?.map((tot) => (
           <SingleTot
             key={tot.id}
@@ -216,7 +216,7 @@ const SingleTot = ({
         setActiveTot(activeTot ? null : tot);
         setEditTot(false);
       }}
-      className="relative z-10 cursor-pointer rounded-2xl border border-neutral-800 bg-neutral-900 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:rounded-3xl md:p-5 lg:hover:border-neutral-700/70 lg:hover:shadow-lg"
+      className="relative z-10 cursor-pointer border border-neutral-800 bg-neutral-900/80 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:p-5 lg:hover:border-neutral-700/70 lg:hover:bg-neutral-900 lg:hover:shadow-lg"
     >
       <HtmlRenderer html={tot.content} />
     </div>
