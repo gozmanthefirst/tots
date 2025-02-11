@@ -1,36 +1,111 @@
 "use client";
 
 // External Imports
-import { useQueryState } from "nuqs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Tot } from "@prisma/client";
+import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useStore } from "@tanstack/react-store";
+import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 // Local Imports
+import { createTot } from "@/features/editor/actions/create-tot";
+import { TotsEditor } from "@/features/editor/components/tots-editor";
 import { Drawer, DrawerContent, DrawerTitle } from "@/shared/components/drawer";
-import { cn } from "@/shared/lib/utils/cn";
-import { mainPageComponentStore } from "@/shared/store";
-import { instrumentSerif } from "@/styles/fonts";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+} from "@/shared/components/form";
+import { drawerContainerStore, drawerStore } from "@/shared/store";
+import { ServerActionResponse } from "@/shared/types";
+
+const editorSchema = z.object({
+  tot: z
+    .string()
+    .min(1, { message: "C'mon now, surely your Tot can't be blank." }),
+});
+
+type EditorFormType = z.infer<typeof editorSchema>;
 
 export const EditorDrawer = () => {
-  const [drawer, setDrawer] = useQueryState("drawer");
+  const drawer = useStore(drawerStore);
+  const drawerContainer = useStore(drawerContainerStore);
+
+  const currentTot = drawer.tot;
+
+  const form = useForm<EditorFormType>({
+    resolver: zodResolver(editorSchema),
+    defaultValues: {
+      tot: currentTot?.content || "",
+    },
+  });
+
+  useEffect(() => {
+    form.setValue("tot", currentTot?.content || "");
+  }, [currentTot?.content]);
+
+  const onSubmit = async (values: EditorFormType) => {
+    console.log(values.tot); //! TBR
+
+    try {
+      const response: ServerActionResponse | ServerActionResponse<Tot> =
+        await createTot(values);
+
+      if (response.status === "success") {
+        console.log(response.message); //! TBR
+        return;
+      }
+      if (response.status === "error") {
+        console.log(response.message);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Drawer
-      open={drawer === "editor"}
-      onOpenChange={() => {
-        setDrawer(drawer === "editor" ? null : "editor");
+      open={!!drawer.drawerName}
+      onOpenChange={(open) => {
+        if (!open) {
+          drawerStore.setState(() => ({
+            drawerName: null,
+            editable: false,
+          }));
+        }
       }}
-      container={mainPageComponentStore.state}
+      container={drawerContainer}
+      repositionInputs={false}
     >
-      <DrawerContent>
-        <DrawerTitle
-          className={cn(
-            "flex items-center justify-center py-6 text-center text-3xl md:py-8 md:text-4xl",
-            instrumentSerif.className,
-          )}
-      >
-          Tot Editor
-        </DrawerTitle>
+      <DrawerContent className="px-4 pt-6 pb-2 md:px-6">
+        <VisuallyHidden>
+          <DrawerTitle>Tot Editor</DrawerTitle>
+        </VisuallyHidden>
 
-        <div className="py-20"></div>
+        {/* Content */}
+        <Form {...form}>
+          <form
+            id="tot-editor"
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="flex flex-col gap-6"
+          >
+            <FormField
+              control={form.control}
+              name="tot"
+              render={({ field }) => (
+                <FormItem>
+                  <FormControl>
+                    <TotsEditor tots={field.value} onChange={field.onChange} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </form>
+        </Form>
       </DrawerContent>
     </Drawer>
   );
