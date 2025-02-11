@@ -5,9 +5,11 @@ import Placeholder from "@tiptap/extension-placeholder";
 import Underline from "@tiptap/extension-underline";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useEffect } from "react";
 import {
+  TbArrowUp,
   TbBold,
-  TbCircleArrowUpFilled,
+  TbEdit,
   TbH1,
   TbH2,
   TbItalic,
@@ -64,27 +66,39 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     content: tots,
     immediatelyRender: true,
     editable: drawer.editable,
-
-    autofocus: "end",
+    autofocus: drawer.editable ? "end" : false,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
     editorProps: {
       attributes: {
         class:
-          "relative field-sizing-content max-h-[400px] min-h-[100px] w-full overflow-auto border-none focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[500px] md:min-h-[150px]",
+          "relative field-sizing-content max-h-[400px] min-h-[100px] w-full overflow-auto border-none pt-6 pb-2 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[60dvh] md:min-h-[15dvh]",
       },
     },
   });
+
+  useEffect(() => {
+    if (editor) {
+      editor.setEditable(drawer.editable);
+      if (drawer.editable) {
+        editor.commands.focus("end");
+      }
+    }
+  }, [drawer.editable, editor]);
 
   if (!editor) {
     return null;
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col">
       <EditorContent editor={editor} />
-      <EditorControls editor={editor} tots={tots} />
+      {drawer.editable ? (
+        <EditorControls editor={editor} tots={tots} />
+      ) : (
+        <NonEditorControls editor={editor} tots={tots} />
+      )}
     </div>
   );
 };
@@ -102,7 +116,7 @@ export const EditorControls = ({
   }
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 py-3">
       {/* Headings */}
       <div className="flex items-center justify-center gap-1">
         {/* H1 */}
@@ -223,15 +237,45 @@ export const EditorControls = ({
       <Button
         size="icon"
         form="tot-editor"
-        variant="ghost"
+        variant="white"
         disabled={!editor.getText().length}
-        className="ml-auto h-auto w-auto rounded-full focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-brand-400"
+        className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
         aria-label="Submit Content"
       >
-        <TbCircleArrowUpFilled
-          size={34}
-          className="cursor-pointer fill-neutral-300 transition-colors hover:fill-brand-400"
-        />
+        <TbArrowUp size={24} strokeWidth={2.5} />
+      </Button>
+    </div>
+  );
+};
+
+export const NonEditorControls = ({
+  editor,
+  tots,
+}: {
+  editor: Editor | null;
+  tots: string;
+}) => {
+  const drawer = useStore(drawerStore);
+
+  if (!editor) {
+    return null;
+  }
+
+  return (
+    <div className="flex items-center gap-2 py-3">
+      <Button
+        size="icon"
+        onClick={() =>
+          drawerStore.setState(() => ({
+            drawerName: drawer.drawerName,
+            editable: true,
+          }))
+        }
+        type="button"
+        variant="white"
+        className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
+      >
+        <TbEdit size={24} strokeWidth={2.5} />
       </Button>
     </div>
   );
