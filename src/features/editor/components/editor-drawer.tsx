@@ -81,7 +81,7 @@ export const EditorDrawer = () => {
       container={drawerContainer}
       repositionInputs={false}
     >
-      <DrawerContent className="px-4 pt-6 pb-2 md:px-6">
+      <DrawerContent className="px-4 md:px-6">
         <VisuallyHidden>
           <DrawerTitle>Tot Editor</DrawerTitle>
         </VisuallyHidden>
