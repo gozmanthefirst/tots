@@ -48,7 +48,6 @@ const TotsLayout = async ({ children, params }: Props) => {
       <div className="flex flex-col">
         <TotsHeader />
         <main className="flex-1">{children}</main>
-        {/* <TotsEditorForm /> */}
         <OpenEditorBtn />
       </div>
       <DrawerProvider />
