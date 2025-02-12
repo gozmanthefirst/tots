@@ -79,7 +79,6 @@ export const EditorDrawer = () => {
         }
       }}
       container={drawerContainer}
-      repositionInputs={false}
     >
       <DrawerContent className="px-4 md:px-6">
         <VisuallyHidden>
