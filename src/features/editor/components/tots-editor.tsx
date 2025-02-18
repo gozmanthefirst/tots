@@ -73,7 +73,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     editorProps: {
       attributes: {
         class:
-          "relative field-sizing-content max-h-[400px] min-h-[100px] w-full overflow-auto border-none pt-6 pb-2 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[60dvh] md:min-h-[15dvh]",
+          "relative field-sizing-content max-h-[50dvh] min-h-[15dvh] w-full overflow-auto border-none py-5 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[60dvh] md:min-h-[15dvh] lg:pt-6 lg:pb-4",
       },
     },
   });
@@ -242,7 +242,7 @@ export const EditorControls = ({
         className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
         aria-label="Submit Content"
       >
-        <TbArrowUp size={24} strokeWidth={2.5} />
+        <TbArrowUp size={20} strokeWidth={2.5} />
       </Button>
     </div>
   );

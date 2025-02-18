@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Tot } from "@prisma/client";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useStore } from "@tanstack/react-store";
+import { useWindowSize } from "@uidotdev/usehooks";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -19,6 +20,7 @@ import {
   FormField,
   FormItem,
 } from "@/shared/components/form";
+import { Modal, ModalContent, ModalTitle } from "@/shared/components/modal";
 import { drawerContainerStore, drawerStore } from "@/shared/store";
 import { ServerActionResponse } from "@/shared/types";
 
@@ -33,6 +35,8 @@ type EditorFormType = z.infer<typeof editorSchema>;
 export const EditorDrawer = () => {
   const drawer = useStore(drawerStore);
   const drawerContainer = useStore(drawerContainerStore);
+
+  const windowSize = useWindowSize();
 
   const currentTot = drawer.tot;
 
@@ -67,45 +71,96 @@ export const EditorDrawer = () => {
     }
   };
 
-  return (
-    <Drawer
-      open={!!drawer.drawerName}
-      onOpenChange={(open) => {
-        if (!open) {
-          drawerStore.setState(() => ({
-            drawerName: null,
-            editable: false,
-          }));
-        }
-      }}
-      container={drawerContainer}
-    >
-      <DrawerContent className="px-4 md:px-6">
-        <VisuallyHidden>
-          <DrawerTitle>Tot Editor</DrawerTitle>
-        </VisuallyHidden>
+  if (!windowSize.width) return null;
 
-        {/* Content */}
-        <Form {...form}>
-          <form
-            id="tot-editor"
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="flex flex-col gap-6"
-          >
-            <FormField
-              control={form.control}
-              name="tot"
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <TotsEditor tots={field.value} onChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </form>
-        </Form>
-      </DrawerContent>
-    </Drawer>
+  return (
+    <>
+      {windowSize.width >= 1024 ? (
+        <Drawer
+          open={!!drawer.drawerName}
+          onOpenChange={(open) => {
+            if (!open) {
+              drawerStore.setState(() => ({
+                drawerName: null,
+                editable: false,
+              }));
+            }
+          }}
+          container={drawerContainer}
+        >
+          <DrawerContent className="px-4 md:px-6">
+            <VisuallyHidden>
+              <DrawerTitle>Tot Editor</DrawerTitle>
+            </VisuallyHidden>
+
+            {/* Content */}
+            <Form {...form}>
+              <form
+                id="tot-editor"
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="tot"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TotsEditor
+                          tots={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
+          </DrawerContent>
+        </Drawer>
+      ) : (
+        <Modal
+          open={!!drawer.drawerName}
+          onOpenChange={(open) => {
+            if (!open) {
+              drawerStore.setState(() => ({
+                drawerName: null,
+                editable: false,
+              }));
+            }
+          }}
+        >
+          <ModalContent>
+            <VisuallyHidden>
+              <ModalTitle>Tot Editor</ModalTitle>
+            </VisuallyHidden>
+
+            {/* Content */}
+            <Form {...form}>
+              <form
+                id="tot-editor"
+                onSubmit={form.handleSubmit(onSubmit)}
+                className="flex flex-col gap-6"
+              >
+                <FormField
+                  control={form.control}
+                  name="tot"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <TotsEditor
+                          tots={field.value}
+                          onChange={field.onChange}
+                        />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
+          </ModalContent>
+        </Modal>
+      )}
+    </>
   );
 };
