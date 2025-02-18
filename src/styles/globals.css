@@ -70,6 +70,8 @@
   }
 }
 
+@plugin "tailwindcss-animate";
+
 html {
   scrollbar-width: thin;
   scrollbar-color: #666 transparent;
