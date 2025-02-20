@@ -7,12 +7,14 @@ import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useStore } from "@tanstack/react-store";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReturn } from "react-hook-form";
+import { TbClearAll, TbX } from "react-icons/tb";
 import { z } from "zod";
 
 // Local Imports
 import { createTot } from "@/features/editor/actions/create-tot";
 import { TotsEditor } from "@/features/editor/components/tots-editor";
+import { Button } from "@/shared/components/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@/shared/components/drawer";
 import {
   Form,
@@ -47,12 +49,15 @@ export const EditorDrawer = () => {
     },
   });
 
+  // useEffect for populating the tot in the form when the drawer/modal opens
   useEffect(() => {
     form.setValue("tot", currentTot?.content || "");
   }, [currentTot?.content]);
 
   const onSubmit = async (values: EditorFormType) => {
     console.log(values.tot); //! TBR
+
+    if (drawer.tot) return;
 
     try {
       const response: ServerActionResponse | ServerActionResponse<Tot> =
@@ -83,6 +88,7 @@ export const EditorDrawer = () => {
               drawerStore.setState(() => ({
                 drawerName: null,
                 editable: false,
+                tot: null,
               }));
             }
           }}
@@ -116,6 +122,9 @@ export const EditorDrawer = () => {
                 />
               </form>
             </Form>
+
+            {/* Close Button */}
+            <ExternalControls form={form} />
           </DrawerContent>
         </Drawer>
       ) : (
@@ -158,9 +167,63 @@ export const EditorDrawer = () => {
                 />
               </form>
             </Form>
+
+            {/* Close Button */}
+            <ExternalControls form={form} />
           </ModalContent>
         </Modal>
       )}
     </>
+  );
+};
+
+const ExternalControls = ({
+  form,
+}: {
+  form: UseFormReturn<
+    {
+      tot: string;
+    },
+    any,
+    undefined
+  >;
+}) => {
+  const drawer = useStore(drawerStore);
+
+  return (
+    <div className="absolute -top-12 right-0 flex flex-row-reverse items-center gap-3 lg:top-0 lg:-right-12 lg:flex-col">
+      {/* Close Drawer/Modal */}
+      <Button
+        size="icon"
+        type="button"
+        onClick={() =>
+          drawerStore.setState(() => ({
+            drawerName: null,
+            editable: false,
+            tot: null,
+          }))
+        }
+        variant="secondary"
+        className="ml-auto cursor-pointer rounded-full"
+      >
+        <TbX size={20} strokeWidth={2} />
+      </Button>
+
+      {/* Clear Tot */}
+      {drawer.editable ? (
+        <Button
+          size="icon"
+          type="button"
+          onClick={() => {
+            form.setValue("tot", "");
+            console.log(form.getValues());
+          }}
+          variant="secondary"
+          className="ml-auto cursor-pointer rounded-full"
+        >
+          <TbClearAll size={20} strokeWidth={2} />
+        </Button>
+      ) : null}
+    </div>
   );
 };

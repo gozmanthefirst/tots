@@ -11,6 +11,7 @@ import { useEffect } from "react";
 import {
   TbArrowUp,
   TbBold,
+  TbDeviceFloppy,
   TbEdit,
   TbH1,
   TbH2,
@@ -19,6 +20,7 @@ import {
   TbListNumbers,
   TbSquareCheck,
   TbStrikethrough,
+  TbTrash,
   TbUnderline,
 } from "react-icons/tb";
 
@@ -83,11 +85,22 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     editorProps: {
       attributes: {
         class:
-          "relative field-sizing-content max-h-[75dvh] min-h-[15dvh] w-full overflow-auto border-none py-4 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[80dvh] md:min-h-[15dvh] lg:pt-6 lg:pb-4",
+          "relative field-sizing-content max-h-[70dvh] min-h-[15dvh] w-full overflow-auto border-none py-4 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 lg:pt-6 lg:pb-4",
       },
     },
   });
 
+  // useEffect to sync editor content with tots
+  useEffect(() => {
+    if (editor && tots !== editor.getHTML()) {
+      editor.commands.setContent(tots);
+      if (drawer.editable) {
+        editor.commands.focus("end");
+      }
+    }
+  }, [tots, editor]);
+
+  // useEffect to focus the editor at the end when `editable` is true
   useEffect(() => {
     if (editor) {
       editor.setEditable(drawer.editable);
@@ -114,13 +127,15 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
 };
 
 //* Controls
-export const EditorControls = ({
+const EditorControls = ({
   editor,
   tots,
 }: {
   editor: Editor | null;
   tots: string;
 }) => {
+  const drawer = useStore(drawerStore);
+
   if (!editor) {
     return null;
   }
@@ -269,15 +284,19 @@ export const EditorControls = ({
         variant="white"
         disabled={!editor.getText().length}
         className="ml-auto flex-none cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
-        aria-label="Submit Content"
+        aria-label={drawer.tot ? "Edit Content" : "Submit Content"}
       >
-        <TbArrowUp size={20} strokeWidth={2.5} />
+        {drawer.tot ? (
+          <TbDeviceFloppy size={20} strokeWidth={2} />
+        ) : (
+          <TbArrowUp size={20} strokeWidth={2} />
+        )}
       </Button>
     </div>
   );
 };
 
-export const NonEditorControls = ({
+const NonEditorControls = ({
   editor,
   tots,
 }: {
@@ -291,21 +310,35 @@ export const NonEditorControls = ({
   }
 
   return (
-    <div className="flex items-center gap-2 py-3">
-      <Button
-        size="icon"
-        onClick={() =>
-          drawerStore.setState(() => ({
-            drawerName: drawer.drawerName,
-            editable: true,
-          }))
-        }
-        type="button"
-        variant="white"
-        className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
-      >
-        <TbEdit size={20} strokeWidth={2} />
-      </Button>
+    <div className="flex items-center justify-between gap-6">
+      <div className="flex items-center gap-2 py-3">
+        <Button
+          size="icon"
+          type="button"
+          variant="destructive"
+          className="ml-auto cursor-pointer rounded-full"
+        >
+          <TbTrash size={20} strokeWidth={2} />
+        </Button>
+      </div>
+
+      <div className="flex items-center gap-2 py-3">
+        <Button
+          size="icon"
+          onClick={() =>
+            drawerStore.setState(() => ({
+              drawerName: drawer.drawerName,
+              editable: true,
+              tot: drawer.tot,
+            }))
+          }
+          type="button"
+          variant="white"
+          className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
+        >
+          <TbEdit size={20} strokeWidth={2} />
+        </Button>
+      </div>
     </div>
   );
 };

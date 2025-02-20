@@ -18,6 +18,8 @@ export const buttonVariants = cva(
           "bg-neutral-950 text-white shadow-sm lg:hover:bg-neutral-950/90 focus-visible:outline-neutral-950",
         secondary:
           "bg-neutral-800 text-brand-400 shadow-sm lg:hover:bg-neutral-800/90 focus-visible:outline-neutral-800",
+        destructive:
+          "bg-neutral-800 text-red-500 shadow-sm lg:hover:bg-neutral-700/50 focus-visible:outline-neutral-800",
         grayed:
           "bg-neutral-600 text-foreground shadow-sm lg:hover:bg-neutral-600/90 focus-visible:outline-neutral-600",
         outline:

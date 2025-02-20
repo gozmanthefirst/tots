@@ -45,7 +45,7 @@ const ModalContent = forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed top-[50%] left-[50%] z-100 flex max-h-[90dvh] w-[95vw] max-w-2xl translate-x-[-50%] translate-y-[-50%] flex-col gap-6 overflow-hidden rounded-2xl border border-none bg-neutral-800/50 px-3 shadow-lg outline-0 backdrop-blur-xl duration-200 focus:outline-0 focus:outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 lg:rounded-3xl",
+        "fixed top-[50%] left-[50%] z-100 flex max-h-[90dvh] w-[95vw] max-w-2xl translate-x-[-50%] translate-y-[-50%] flex-col gap-6 rounded-2xl border border-none bg-neutral-800/50 px-3 shadow-lg outline-0 backdrop-blur-xl duration-200 focus:outline-0 focus:outline-none data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=open]:zoom-in-95 lg:rounded-3xl",
         className,
       )}
       {...props}

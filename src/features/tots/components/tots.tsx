@@ -7,36 +7,16 @@ import { useEffect, useRef, useState } from "react";
 
 // Local Imports
 import { HtmlRenderer } from "@/shared/components/html-renderer";
-import { copyToClipboard } from "@/shared/lib/utils/copy-paste-text";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { drawerStore } from "@/shared/store";
 import { getTots } from "../actions/get-tots";
 
 export const Tots = () => {
-  const [totCopied, setTotCopied] = useState(false);
-
-  const textRef = useRef<HTMLDivElement>(null);
-
   // Fetch Tots
   const { data: { data: tots } = {} } = useQuery({
     queryKey: ["tots"],
     queryFn: () => runParallelAction(getTots()),
   });
-
-  const copyTot = () => {
-    if (textRef.current) {
-      if (!totCopied) {
-        const tot = textRef.current.textContent || "";
-        copyToClipboard(tot);
-
-        setTotCopied(true);
-
-        setTimeout(() => {
-          setTotCopied(false);
-        }, 1000);
-      }
-    }
-  };
 
   return (
     <ul className="relative mx-auto flex h-full max-w-2xl flex-col gap-4">
@@ -50,6 +30,7 @@ const SingleTot = ({ tot }: { tot: Tot }) => {
 
   const containerRef = useRef<HTMLDivElement>(null);
 
+  // useEffect to check if a tot card is overflowing
   useEffect(() => {
     const checkOverflow = () => {
       if (containerRef.current) {
@@ -58,11 +39,8 @@ const SingleTot = ({ tot }: { tot: Tot }) => {
       }
     };
 
-    // Initial check
     checkOverflow();
-    // Update on window resize
     window.addEventListener("resize", checkOverflow);
-
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
 
