@@ -73,7 +73,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     editorProps: {
       attributes: {
         class:
-          "relative field-sizing-content max-h-[50dvh] min-h-[15dvh] w-full overflow-auto border-none py-5 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[60dvh] md:min-h-[15dvh] lg:pt-6 lg:pb-4",
+          "relative field-sizing-content max-h-[75dvh] min-h-[15dvh] w-full overflow-auto border-none py-3 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[80dvh] md:min-h-[15dvh] lg:pt-6 lg:pb-4",
       },
     },
   });
@@ -275,7 +275,7 @@ export const NonEditorControls = ({
         variant="white"
         className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
       >
-        <TbEdit size={24} strokeWidth={2.5} />
+        <TbEdit size={20} strokeWidth={2} />
       </Button>
     </div>
   );

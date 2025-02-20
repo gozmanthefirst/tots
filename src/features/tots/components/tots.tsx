@@ -3,7 +3,7 @@
 // External Imports
 import { Tot } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // Local Imports
 import { HtmlRenderer } from "@/shared/components/html-renderer";
@@ -46,8 +46,29 @@ export const Tots = () => {
 };
 
 const SingleTot = ({ tot }: { tot: Tot }) => {
+  const [isOverflowing, setIsOverflowing] = useState(false);
+
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const checkOverflow = () => {
+      if (containerRef.current) {
+        const { scrollHeight, clientHeight } = containerRef.current;
+        setIsOverflowing(scrollHeight > clientHeight);
+      }
+    };
+
+    // Initial check
+    checkOverflow();
+    // Update on window resize
+    window.addEventListener("resize", checkOverflow);
+
+    return () => window.removeEventListener("resize", checkOverflow);
+  }, []);
+
   return (
     <div
+      ref={containerRef}
       onClick={() => {
         drawerStore.setState(() => ({
           drawerName: tot.id,
@@ -55,9 +76,13 @@ const SingleTot = ({ tot }: { tot: Tot }) => {
           tot,
         }));
       }}
-      className="relative z-10 cursor-pointer border border-neutral-800 bg-neutral-900/80 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:p-5 lg:hover:border-neutral-700/70 lg:hover:bg-neutral-900 lg:hover:shadow-lg max-h-[50dvh] overflow-hidden"
+      className="relative z-10 max-h-[50dvh] cursor-pointer overflow-hidden border border-neutral-800 bg-neutral-900/80 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:p-5 lg:hover:border-neutral-700/70 lg:hover:bg-neutral-900 lg:hover:shadow-lg"
     >
       <HtmlRenderer html={tot.content} />
+
+      {isOverflowing && (
+        <div className="pointer-events-none absolute right-0 bottom-0 left-0 h-[15dvh] bg-linear-to-b from-neutral-950/0 via-neutral-950/30 to-neutral-950/90" />
+      )}
     </div>
   );
 };
