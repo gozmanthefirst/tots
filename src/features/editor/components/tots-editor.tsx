@@ -1,6 +1,7 @@
 "use client";
 
 // External Imports
+import { Tot } from "@prisma/client";
 import Placeholder from "@tiptap/extension-placeholder";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
@@ -25,6 +26,7 @@ import {
 } from "react-icons/tb";
 
 // Local Imports
+import { deleteTot } from "@/features/tots/actions/delete-tot";
 import { Button } from "@/shared/components/button";
 import { Separator } from "@/shared/components/separator";
 import { drawerStore } from "@/shared/store";
@@ -309,12 +311,22 @@ const NonEditorControls = ({
     return null;
   }
 
+  const handleDeleteTot = async () => {
+    await deleteTot(drawer.tot as Tot);
+    drawerStore.setState(() => ({
+      drawerName: null,
+      editable: false,
+      tot: null,
+    }));
+  };
+
   return (
     <div className="flex items-center justify-between gap-6">
       <div className="flex items-center gap-2 py-3">
         <Button
           size="icon"
           type="button"
+          onClick={handleDeleteTot}
           variant="destructive"
           className="ml-auto cursor-pointer rounded-full"
         >

@@ -12,8 +12,9 @@ import { TbClearAll, TbX } from "react-icons/tb";
 import { z } from "zod";
 
 // Local Imports
-import { createTot } from "@/features/editor/actions/create-tot";
 import { TotsEditor } from "@/features/editor/components/tots-editor";
+import { createTot } from "@/features/tots/actions/create-tot";
+import { editTot } from "@/features/tots/actions/edit-tot";
 import { Button } from "@/shared/components/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@/shared/components/drawer";
 import {
@@ -57,14 +58,25 @@ export const EditorDrawer = () => {
   const onSubmit = async (values: EditorFormType) => {
     console.log(values.tot); //! TBR
 
-    if (drawer.tot) return;
-
     try {
-      const response: ServerActionResponse | ServerActionResponse<Tot> =
-        await createTot(values);
+      let response: ServerActionResponse | ServerActionResponse<Tot>;
+
+      if (!drawer.tot) {
+        response = await createTot(values);
+      } else {
+        response = await editTot({
+          updatedTot: values.tot,
+          tot: drawer.tot,
+        });
+      }
 
       if (response.status === "success") {
         console.log(response.message); //! TBR
+        drawerStore.setState(() => ({
+          drawerName: null,
+          editable: false,
+          tot: null,
+        }));
         return;
       }
       if (response.status === "error") {
