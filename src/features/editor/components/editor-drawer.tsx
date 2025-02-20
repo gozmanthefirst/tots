@@ -53,7 +53,7 @@ export const EditorDrawer = () => {
   // useEffect for populating the tot in the form when the drawer/modal opens
   useEffect(() => {
     form.setValue("tot", currentTot?.content || "");
-  }, [currentTot?.content]);
+  }, [currentTot?.content, form]);
 
   const onSubmit = async (values: EditorFormType) => {
     console.log(values.tot); //! TBR

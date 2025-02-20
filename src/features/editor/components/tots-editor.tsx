@@ -100,7 +100,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
         editor.commands.focus("end");
       }
     }
-  }, [tots, editor]);
+  }, [tots, editor, drawer.editable]);
 
   // useEffect to focus the editor at the end when `editable` is true
   useEffect(() => {
