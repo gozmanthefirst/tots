@@ -128,54 +128,54 @@ h2.rte {
   pointer-events: none;
 }
 
-.tiptap ul[data-type="taskList"] {
+ul[data-type="taskList"] {
   list-style: none;
   margin-left: 0;
   padding: 2px 8px;
 }
 
-.tiptap ul[data-type="taskList"] li {
-  align-items: center;
+ul[data-type="taskList"] li {
+  align-items: start;
   display: flex;
 }
 
-.tiptap ul[data-type="taskList"] li > label {
+ul[data-type="taskList"] li > label {
   flex: 0 0 auto;
   margin-right: 0.6rem;
   user-select: none;
 }
 
-.tiptap ul[data-type="taskList"] li > div {
+ul[data-type="taskList"] li > div {
   flex: 1 1 auto;
 }
 
-.tiptap ul[data-type="taskList"] input[type="checkbox"] {
+ul[data-type="taskList"] input[type="checkbox"] {
   cursor: pointer;
 }
 
-.tiptap ul[data-type="taskList"] ul[data-type="taskList"] {
+ul[data-type="taskList"] ul[data-type="taskList"] {
   margin: 0;
 }
 
-.tiptap ul[data-type="taskList"] li input[type="checkbox"] {
+ul[data-type="taskList"] li input[type="checkbox"] {
   -webkit-appearance: none;
   appearance: none;
   width: 16px;
   height: 16px;
   border: 1px solid #aaaaaa;
-  background: transparent;
+  background: #262626;
   border-radius: 2px;
-  transform: translateY(-1px);
+  transform: translateY(2px);
   cursor: pointer;
   position: relative;
 }
 
-.tiptap ul[data-type="taskList"] li input[type="checkbox"]:checked {
+ul[data-type="taskList"] li input[type="checkbox"]:checked {
   background: #e5e999;
   border: 1px solid #e5e999;
 }
 
-.tiptap ul[data-type="taskList"] li input[type="checkbox"]:checked::after {
+ul[data-type="taskList"] li input[type="checkbox"]:checked::after {
   content: "";
   position: absolute;
   top: 50%;
