@@ -2,6 +2,8 @@
 
 // External Imports
 import Placeholder from "@tiptap/extension-placeholder";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
 import Underline from "@tiptap/extension-underline";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
@@ -15,6 +17,7 @@ import {
   TbItalic,
   TbList,
   TbListNumbers,
+  TbSquareCheck,
   TbStrikethrough,
   TbUnderline,
 } from "react-icons/tb";
@@ -62,6 +65,13 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
         placeholder: "Write something...",
       }),
       Underline,
+      TaskList.configure({}),
+      TaskItem.configure({
+        nested: true,
+        HTMLAttributes: {
+          class: "text-sm md:text-[15px]/[22px]",
+        },
+      }),
     ],
     content: tots,
     immediatelyRender: true,
@@ -73,7 +83,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     editorProps: {
       attributes: {
         class:
-          "relative field-sizing-content max-h-[75dvh] min-h-[15dvh] w-full overflow-auto border-none py-3 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[80dvh] md:min-h-[15dvh] lg:pt-6 lg:pb-4",
+          "relative field-sizing-content max-h-[75dvh] min-h-[15dvh] w-full overflow-auto border-none py-4 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 md:max-h-[80dvh] md:min-h-[15dvh] lg:pt-6 lg:pb-4",
       },
     },
   });
@@ -117,121 +127,140 @@ export const EditorControls = ({
 
   return (
     <div className="flex items-center gap-2 py-3">
-      {/* Headings */}
-      <div className="flex items-center justify-center gap-1">
-        {/* H1 */}
-        <Button
-          type="button"
-          onClick={() => {
-            if (editor.isActive("heading", { level: 2 })) {
-              editor.chain().focus().toggleHeading({ level: 2 }).run();
-            }
+      {/* Formatting Options */}
+      <div className="remove-system-scrollbar flex w-[calc(100%_-_48px)] items-center gap-2 overflow-auto">
+        {/* Headings */}
+        <div className="flex items-center justify-center gap-1">
+          {/* H1 */}
+          <Button
+            type="button"
+            onClick={() => {
+              if (editor.isActive("heading", { level: 2 })) {
+                editor.chain().focus().toggleHeading({ level: 2 }).run();
+              }
 
-            editor.chain().focus().toggleHeading({ level: 1 }).run();
-          }}
-          variant={editor.isActive("heading", { level: 1 }) ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbH1 size={18} />
-        </Button>
-
-        {/* H2 */}
-        <Button
-          type="button"
-          onClick={() => {
-            if (editor.isActive("heading", { level: 1 })) {
               editor.chain().focus().toggleHeading({ level: 1 }).run();
+            }}
+            variant={
+              editor.isActive("heading", { level: 1 }) ? "white" : "ghost"
             }
+            size={"smIcon"}
+          >
+            <TbH1 size={18} />
+          </Button>
 
-            editor.chain().focus().toggleHeading({ level: 2 }).run();
-          }}
-          variant={editor.isActive("heading", { level: 2 }) ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbH2 size={18} />
-        </Button>
-      </div>
+          {/* H2 */}
+          <Button
+            type="button"
+            onClick={() => {
+              if (editor.isActive("heading", { level: 1 })) {
+                editor.chain().focus().toggleHeading({ level: 1 }).run();
+              }
 
-      <Separator orientation="vertical" className="h-4" />
+              editor.chain().focus().toggleHeading({ level: 2 }).run();
+            }}
+            variant={
+              editor.isActive("heading", { level: 2 }) ? "white" : "ghost"
+            }
+            size={"smIcon"}
+          >
+            <TbH2 size={18} />
+          </Button>
+        </div>
 
-      {/* Formatting */}
-      <div className="flex items-center justify-center gap-1">
-        {/* Bold */}
-        <Button
-          type="button"
-          onClick={() => {
-            editor.chain().focus().toggleBold().run();
-          }}
-          variant={editor.isActive("bold") ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbBold size={18} />
-        </Button>
+        <Separator orientation="vertical" className="h-4" />
 
-        {/* Italic */}
-        <Button
-          type="button"
-          onClick={() => {
-            editor.chain().focus().toggleItalic().run();
-          }}
-          variant={editor.isActive("italic") ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbItalic size={18} />
-        </Button>
+        {/* Formatting */}
+        <div className="flex items-center justify-center gap-1">
+          {/* Bold */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleBold().run();
+            }}
+            variant={editor.isActive("bold") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbBold size={18} />
+          </Button>
 
-        {/* Underline */}
-        <Button
-          type="button"
-          onClick={() => {
-            editor.chain().focus().toggleUnderline().run();
-          }}
-          variant={editor.isActive("underline") ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbUnderline size={18} />
-        </Button>
+          {/* Italic */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleItalic().run();
+            }}
+            variant={editor.isActive("italic") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbItalic size={18} />
+          </Button>
 
-        {/* Strikethrough */}
-        <Button
-          type="button"
-          onClick={() => {
-            editor.chain().focus().toggleStrike().run();
-          }}
-          variant={editor.isActive("strike") ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbStrikethrough size={18} />
-        </Button>
-      </div>
+          {/* Underline */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleUnderline().run();
+            }}
+            variant={editor.isActive("underline") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbUnderline size={18} />
+          </Button>
 
-      <Separator orientation="vertical" className="h-4" />
+          {/* Strikethrough */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleStrike().run();
+            }}
+            variant={editor.isActive("strike") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbStrikethrough size={18} />
+          </Button>
+        </div>
 
-      {/* Lists */}
-      <div className="flex items-center justify-center gap-1">
-        {/* Bullet List */}
-        <Button
-          type="button"
-          onClick={() => {
-            editor.chain().focus().toggleBulletList().run();
-          }}
-          variant={editor.isActive("bulletList") ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbList size={18} />
-        </Button>
+        <Separator orientation="vertical" className="h-4" />
 
-        {/* Ordered List */}
-        <Button
-          type="button"
-          onClick={() => {
-            editor.chain().focus().toggleOrderedList().run();
-          }}
-          variant={editor.isActive("orderedList") ? "white" : "ghost"}
-          size={"smIcon"}
-        >
-          <TbListNumbers size={18} />
-        </Button>
+        {/* Lists */}
+        <div className="flex items-center justify-center gap-1">
+          {/* Bullet List */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleBulletList().run();
+            }}
+            variant={editor.isActive("bulletList") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbList size={18} />
+          </Button>
+
+          {/* Ordered List */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleOrderedList().run();
+            }}
+            variant={editor.isActive("orderedList") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbListNumbers size={18} />
+          </Button>
+
+          {/* Task List */}
+          <Button
+            type="button"
+            onClick={() => {
+              editor.chain().focus().toggleTaskList().run();
+            }}
+            variant={editor.isActive("taskList") ? "white" : "ghost"}
+            size={"smIcon"}
+          >
+            <TbSquareCheck size={18} />
+          </Button>
+        </div>
       </div>
 
       <Button
@@ -239,7 +268,7 @@ export const EditorControls = ({
         form="tot-editor"
         variant="white"
         disabled={!editor.getText().length}
-        className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
+        className="ml-auto flex-none cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
         aria-label="Submit Content"
       >
         <TbArrowUp size={20} strokeWidth={2.5} />

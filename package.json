@@ -26,6 +26,8 @@
     "@tanstack/react-query-devtools": "^5.59.20",
     "@tanstack/react-store": "^0.7.0",
     "@tiptap/extension-placeholder": "^2.11.5",
+    "@tiptap/extension-task-item": "^2.11.5",
+    "@tiptap/extension-task-list": "^2.11.5",
     "@tiptap/extension-underline": "^2.10.4",
     "@tiptap/pm": "^2.10.4",
     "@tiptap/react": "^2.10.4",
