@@ -8,7 +8,7 @@ import TaskList from "@tiptap/extension-task-list";
 import Underline from "@tiptap/extension-underline";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useEffect } from "react";
+import { BaseSyntheticEvent, useEffect } from "react";
 import {
   TbArrowUp,
   TbBold,
@@ -35,9 +35,10 @@ import { useStore } from "@tanstack/react-store";
 interface Props {
   onChange: (tots: string) => void;
   tots: string;
+  onSubmit: (e?: BaseSyntheticEvent) => Promise<void>;
 }
 
-export const TotsEditor = ({ onChange, tots }: Props) => {
+export const TotsEditor = ({ onChange, tots, onSubmit }: Props) => {
   const drawer = useStore(drawerStore);
 
   const editor = useEditor({
@@ -85,6 +86,14 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
       onChange(editor.getHTML());
     },
     editorProps: {
+      handleKeyDown: (view, event) => {
+        if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
+          event.preventDefault();
+          onSubmit();
+          return true;
+        }
+        return false;
+      },
       attributes: {
         class:
           "relative field-sizing-content max-h-[70dvh] min-h-[15dvh] w-full overflow-auto border-none py-4 focus-visible:ring-0 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:opacity-50 lg:pt-6 lg:pb-4",
@@ -92,7 +101,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     },
   });
 
-  // useEffect to sync editor content with tots
+  // Sync editor content with tots
   useEffect(() => {
     if (editor && tots !== editor.getHTML()) {
       editor.commands.setContent(tots);
@@ -102,7 +111,7 @@ export const TotsEditor = ({ onChange, tots }: Props) => {
     }
   }, [tots, editor, drawer.editable]);
 
-  // useEffect to focus the editor at the end when `editable` is true
+  // Focus the editor at the end when `editable` is true
   useEffect(() => {
     if (editor) {
       editor.setEditable(drawer.editable);

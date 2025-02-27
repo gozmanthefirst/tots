@@ -127,6 +127,7 @@ export const EditorDrawer = () => {
                         <TotsEditor
                           tots={field.value}
                           onChange={field.onChange}
+                          onSubmit={form.handleSubmit(onSubmit)}
                         />
                       </FormControl>
                     </FormItem>
@@ -172,6 +173,7 @@ export const EditorDrawer = () => {
                         <TotsEditor
                           tots={field.value}
                           onChange={field.onChange}
+                          onSubmit={form.handleSubmit(onSubmit)}
                         />
                       </FormControl>
                     </FormItem>
