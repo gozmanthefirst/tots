@@ -7,7 +7,7 @@ import { cn } from "../lib/utils/cn";
 // Local Imports
 
 export const buttonVariants = cva(
-  "inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold cursor-pointer transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex gap-2 items-center justify-center whitespace-nowrap rounded-xl text-sm font-semibold cursor-pointer transition duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-400 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -20,6 +20,8 @@ export const buttonVariants = cva(
           "bg-neutral-800 text-brand-400 shadow-sm lg:hover:bg-neutral-800/90 focus-visible:outline-neutral-800",
         destructive:
           "bg-neutral-800 text-red-500 shadow-sm lg:hover:bg-neutral-700/50 focus-visible:outline-neutral-800",
+        success:
+          "bg-neutral-800 text-green-500 shadow-sm lg:hover:bg-neutral-700/50 focus-visible:outline-neutral-800",
         grayed:
           "bg-neutral-600 text-foreground shadow-sm lg:hover:bg-neutral-600/90 focus-visible:outline-neutral-600",
         outline:
