@@ -8,6 +8,7 @@ import TaskList from "@tiptap/extension-task-list";
 import Underline from "@tiptap/extension-underline";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { AnimatePresence, motion } from "motion/react";
 import { BaseSyntheticEvent, useEffect } from "react";
 import {
   TbArrowUp,
@@ -36,7 +37,6 @@ import {
   drawerStore,
   submitTotBtnStateStore,
 } from "@/shared/store";
-import { AnimatePresence, motion } from "motion/react";
 
 interface Props {
   onChange: (tots: string) => void;
@@ -333,11 +333,6 @@ const EditorControls = ({
         className="relative ml-auto flex-none cursor-pointer overflow-hidden rounded-full bg-neutral-300 lg:hover:bg-brand-400"
         aria-label={drawer.tot ? "Edit Content" : "Submit Content"}
       >
-        {/* {drawer.tot ? (
-          <TbDeviceFloppy size={20} strokeWidth={2} />
-        ) : (
-          <TbArrowUp size={20} strokeWidth={2} />
-        )} */}
         <AnimatePresence mode="popLayout" initial={false}>
           <motion.div
             key={submitButtonState}

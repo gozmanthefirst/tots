@@ -20,7 +20,7 @@ import { ServerActionResponse } from "@/shared/types";
 
 const delButtonCopy = {
   idle: <TbTrash size={20} strokeWidth={2} />,
-  loading: <RotatingLines visible width="18" strokeColor="#E5E999" />,
+  loading: <RotatingLines visible width="18" strokeColor="#000000" />,
   success: <TbCircleCheck size={20} strokeWidth={2} />,
   error: <TbExclamationCircle size={20} strokeWidth={2} />,
 };
@@ -85,9 +85,7 @@ export const DelTotBtn = () => {
       variant={
         delButtonState === "idle" || delButtonState === "error"
           ? "destructive"
-          : delButtonState === "success"
-            ? "brand"
-            : "secondary"
+          : "white"
       }
       className="relative cursor-pointer overflow-hidden rounded-full"
     >

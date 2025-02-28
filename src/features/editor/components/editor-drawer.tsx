@@ -90,6 +90,7 @@ export const EditorDrawer = () => {
           editable: false,
           tot: null,
         }));
+        form.setValue("tot", "");
       }, 1000);
       setTimeout(() => {
         queryClient.invalidateQueries({
@@ -253,7 +254,6 @@ const ExternalControls = ({
           type="button"
           onClick={() => {
             form.setValue("tot", "");
-            console.log(form.getValues());
           }}
           variant="secondary"
           disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
