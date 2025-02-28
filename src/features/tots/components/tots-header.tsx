@@ -4,13 +4,14 @@
 import { AnimatePresence, motion } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
 // Local Imports
-import { signOut } from "@/features/auth/actions/sign-out";
 import { Button } from "@/shared/components/button";
 import { Container } from "@/shared/components/container";
+import { signOut } from "@/shared/lib/auth/auth-client";
 import { cn } from "@/shared/lib/utils/cn";
 
 const buttonCopy = {
@@ -21,7 +22,9 @@ const buttonCopy = {
 };
 
 export const TotsHeader = () => {
-  const [signOutBtnState, setSignOutBtnState] = useState<
+  const router = useRouter();
+
+  const [buttonState, setButtonState] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
 
@@ -33,22 +36,33 @@ export const TotsHeader = () => {
 
   const handleSignOut = async () => {
     try {
-      setSignOutBtnState("loading");
-      const response = await signOut();
+      await signOut({
+        fetchOptions: {
+          onRequest() {
+            setButtonState("loading");
+          },
+          onError(ctx) {
+            if (process.env.NODE_ENV !== "production") {
+              console.error(ctx.error);
+            }
 
-      if (response.success) {
-        setSignOutBtnState("success");
-
-        setTimeout(() => {
-          window.location.href = "/sign-in";
-        }, 2000);
-      }
+            setButtonState("error");
+          },
+          onSuccess() {
+            setButtonState("success");
+            router.push("/sign-in");
+          },
+        },
+      });
     } catch (error) {
-      console.log(error);
-      setSignOutBtnState("error");
+      if (process.env.NODE_ENV !== "production") {
+        console.error(error);
+      }
 
+      setButtonState("error");
+    } finally {
       setTimeout(() => {
-        setSignOutBtnState("idle");
+        setButtonState("idle");
       }, 3000);
     }
   };
@@ -72,20 +86,20 @@ export const TotsHeader = () => {
             <Button
               variant={"secondary"}
               size={"sm"}
-              disabled={signOutBtnState !== "idle"}
+              disabled={buttonState !== "idle"}
               onClick={handleSignOut}
               className={cn("relative w-32 overflow-hidden")}
             >
               <AnimatePresence mode="popLayout" initial={false}>
                 <motion.div
-                  key={signOutBtnState}
+                  key={buttonState}
                   transition={{ type: "spring", bounce: 0, duration: 0.3 }}
                   initial="initial"
                   animate="visible"
                   exit="exit"
                   variants={variants}
                 >
-                  {buttonCopy[signOutBtnState]}
+                  {buttonCopy[buttonState]}
                 </motion.div>
               </AnimatePresence>
             </Button>

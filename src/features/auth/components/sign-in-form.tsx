@@ -8,9 +8,9 @@ import { RotatingLines } from "react-loader-spinner";
 
 // Local Imports
 import { Button } from "@/shared/components/button";
+import { signIn } from "@/shared/lib/auth/auth-client";
 import { cn } from "@/shared/lib/utils/cn";
 import { instrumentSerif } from "@/styles/fonts";
-import { signInWithGoogle } from "../actions/sign-in";
 
 const buttonCopy = {
   idle: (
@@ -62,16 +62,35 @@ const SignInButton = ({ size }: SignInButtonProps) => {
     exit: { opacity: 0, y: 40 },
   };
 
-  const handleSignIn = async () => {
+  const handleGoogleSignIn = async () => {
     try {
-      setButtonState("loading");
-      await signInWithGoogle();
+      await signIn.social(
+        {
+          provider: "google",
+        },
+        {
+          onRequest() {
+            setButtonState("loading");
+          },
+          onError(ctx) {
+            if (process.env.NODE_ENV !== "production") {
+              console.error(ctx.error);
+            }
 
-      setButtonState("success");
+            setButtonState("error");
+          },
+          onSuccess() {
+            setButtonState("success");
+          },
+        },
+      );
     } catch (error) {
-      console.log(error);
-      setButtonState("error");
+      if (process.env.NODE_ENV !== "production") {
+        console.error(error);
+      }
 
+      setButtonState("error");
+    } finally {
       setTimeout(() => {
         setButtonState("idle");
       }, 3000);
@@ -85,7 +104,7 @@ const SignInButton = ({ size }: SignInButtonProps) => {
       size={size}
       disabled={buttonState !== "idle"}
       onClick={() => {
-        handleSignIn();
+        handleGoogleSignIn();
       }}
       className={cn(
         "relative w-full max-w-md overflow-hidden",

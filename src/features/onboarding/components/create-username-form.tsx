@@ -4,13 +4,13 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
+import { useRouter } from "next/navigation";
 import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
 
 // Local Imports
-import { signOut } from "@/features/auth/actions/sign-out";
 import { getUsernames } from "@/shared/actions/get-usernames";
 import { Button } from "@/shared/components/button";
 import {
@@ -21,6 +21,7 @@ import {
   FormMessage,
 } from "@/shared/components/form";
 import { Input } from "@/shared/components/input";
+import { signOut } from "@/shared/lib/auth/auth-client";
 import { cn } from "@/shared/lib/utils/cn";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
@@ -58,6 +59,8 @@ export const usernameSchema = (usernames: string[]) =>
 type UsernameFormType = z.infer<ReturnType<typeof usernameSchema>>;
 
 export const CreateUsernameForm = () => {
+  const router = useRouter();
+
   const [signOutBtnState, setSignOutBtnState] = useState<
     "idle" | "loading" | "success" | "error"
   >("idle");
@@ -67,20 +70,31 @@ export const CreateUsernameForm = () => {
 
   const handleSignOut = async () => {
     try {
-      setSignOutBtnState("loading");
-      const response = await signOut();
+      await signOut({
+        fetchOptions: {
+          onRequest() {
+            setSignOutBtnState("loading");
+          },
+          onError(ctx) {
+            if (process.env.NODE_ENV !== "production") {
+              console.error(ctx.error);
+            }
 
-      if (response.success) {
-        setSignOutBtnState("success");
-
-        setTimeout(() => {
-          window.location.href = "/sign-in";
-        }, 2000);
-      }
+            setSignOutBtnState("error");
+          },
+          onSuccess() {
+            setSignOutBtnState("success");
+            router.push("/sign-in");
+          },
+        },
+      });
     } catch (error) {
-      console.log(error);
-      setSignOutBtnState("error");
+      if (process.env.NODE_ENV !== "production") {
+        console.error(error);
+      }
 
+      setSignOutBtnState("error");
+    } finally {
       setTimeout(() => {
         setSignOutBtnState("idle");
       }, 3000);
