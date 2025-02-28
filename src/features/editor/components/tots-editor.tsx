@@ -1,7 +1,7 @@
 "use client";
 
 // External Imports
-import { Tot } from "@prisma/client";
+import { useStore } from "@tanstack/react-store";
 import Placeholder from "@tiptap/extension-placeholder";
 import TaskItem from "@tiptap/extension-task-item";
 import TaskList from "@tiptap/extension-task-list";
@@ -12,8 +12,10 @@ import { BaseSyntheticEvent, useEffect } from "react";
 import {
   TbArrowUp,
   TbBold,
+  TbCircleCheck,
   TbDeviceFloppy,
   TbEdit,
+  TbExclamationCircle,
   TbH1,
   TbH2,
   TbItalic,
@@ -21,16 +23,20 @@ import {
   TbListNumbers,
   TbSquareCheck,
   TbStrikethrough,
-  TbTrash,
   TbUnderline,
 } from "react-icons/tb";
+import { RotatingLines } from "react-loader-spinner";
 
 // Local Imports
-import { deleteTot } from "@/features/tots/actions/delete-tot";
+import { DelTotBtn } from "@/features/editor/components/del-tot-btn";
 import { Button } from "@/shared/components/button";
 import { Separator } from "@/shared/components/separator";
-import { drawerStore } from "@/shared/store";
-import { useStore } from "@tanstack/react-store";
+import {
+  delTotBtnStateStore,
+  drawerStore,
+  submitTotBtnStateStore,
+} from "@/shared/store";
+import { AnimatePresence, motion } from "motion/react";
 
 interface Props {
   onChange: (tots: string) => void;
@@ -137,7 +143,14 @@ export const TotsEditor = ({ onChange, tots, onSubmit }: Props) => {
   );
 };
 
-//* Controls
+const buttonCopy = {
+  idle: <TbArrowUp size={20} strokeWidth={2} />,
+  loading: <RotatingLines visible width="18" strokeColor="#000000" />,
+  success: <TbCircleCheck size={20} strokeWidth={2} />,
+  error: <TbExclamationCircle size={20} strokeWidth={2} />,
+};
+
+//* Editor Controls
 const EditorControls = ({
   editor,
   tots,
@@ -146,6 +159,14 @@ const EditorControls = ({
   tots: string;
 }) => {
   const drawer = useStore(drawerStore);
+  const submitButtonState = useStore(submitTotBtnStateStore);
+  const delButtonState = useStore(delTotBtnStateStore);
+
+  const variants = {
+    initial: { opacity: 0, y: -30 },
+    visible: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 30 },
+  };
 
   if (!editor) {
     return null;
@@ -171,6 +192,7 @@ const EditorControls = ({
               editor.isActive("heading", { level: 1 }) ? "white" : "ghost"
             }
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbH1 size={18} />
           </Button>
@@ -189,6 +211,7 @@ const EditorControls = ({
               editor.isActive("heading", { level: 2 }) ? "white" : "ghost"
             }
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbH2 size={18} />
           </Button>
@@ -206,6 +229,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("bold") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbBold size={18} />
           </Button>
@@ -218,6 +242,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("italic") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbItalic size={18} />
           </Button>
@@ -230,6 +255,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("underline") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbUnderline size={18} />
           </Button>
@@ -242,6 +268,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("strike") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbStrikethrough size={18} />
           </Button>
@@ -259,6 +286,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("bulletList") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbList size={18} />
           </Button>
@@ -271,6 +299,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("orderedList") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbListNumbers size={18} />
           </Button>
@@ -283,6 +312,7 @@ const EditorControls = ({
             }}
             variant={editor.isActive("taskList") ? "white" : "ghost"}
             size={"smIcon"}
+            disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           >
             <TbSquareCheck size={18} />
           </Button>
@@ -292,21 +322,44 @@ const EditorControls = ({
       <Button
         size="icon"
         form="tot-editor"
-        variant="white"
+        variant={
+          delButtonState === "idle"
+            ? "white"
+            : delButtonState === "error"
+              ? "destructive"
+              : "brand"
+        }
         disabled={!editor.getText().length}
-        className="ml-auto flex-none cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
+        className="relative ml-auto flex-none cursor-pointer overflow-hidden rounded-full bg-neutral-300 lg:hover:bg-brand-400"
         aria-label={drawer.tot ? "Edit Content" : "Submit Content"}
       >
-        {drawer.tot ? (
+        {/* {drawer.tot ? (
           <TbDeviceFloppy size={20} strokeWidth={2} />
         ) : (
           <TbArrowUp size={20} strokeWidth={2} />
-        )}
+        )} */}
+        <AnimatePresence mode="popLayout" initial={false}>
+          <motion.div
+            key={submitButtonState}
+            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            initial="initial"
+            animate="visible"
+            exit="exit"
+            variants={variants}
+          >
+            {drawer.tot && submitButtonState === "idle" ? (
+              <TbDeviceFloppy size={20} strokeWidth={2} />
+            ) : (
+              buttonCopy[submitButtonState]
+            )}
+          </motion.div>
+        </AnimatePresence>
       </Button>
     </div>
   );
 };
 
+//* Non-Editor Controls
 const NonEditorControls = ({
   editor,
   tots,
@@ -315,32 +368,16 @@ const NonEditorControls = ({
   tots: string;
 }) => {
   const drawer = useStore(drawerStore);
+  const delButtonState = useStore(delTotBtnStateStore);
 
   if (!editor) {
     return null;
   }
 
-  const handleDeleteTot = async () => {
-    await deleteTot(drawer.tot as Tot);
-    drawerStore.setState(() => ({
-      drawerName: null,
-      editable: false,
-      tot: null,
-    }));
-  };
-
   return (
     <div className="flex items-center justify-between gap-6">
       <div className="flex items-center gap-2 py-3">
-        <Button
-          size="icon"
-          type="button"
-          onClick={handleDeleteTot}
-          variant="destructive"
-          className="ml-auto cursor-pointer rounded-full"
-        >
-          <TbTrash size={20} strokeWidth={2} />
-        </Button>
+        <DelTotBtn />
       </div>
 
       <div className="flex items-center gap-2 py-3">
@@ -355,6 +392,7 @@ const NonEditorControls = ({
           }
           type="button"
           variant="white"
+          disabled={delButtonState !== "idle"}
           className="ml-auto cursor-pointer rounded-full bg-neutral-300 lg:hover:bg-brand-400"
         >
           <TbEdit size={20} strokeWidth={2} />

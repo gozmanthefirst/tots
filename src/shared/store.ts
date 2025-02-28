@@ -12,3 +12,11 @@ export const drawerStore = new Store<{
   editable: false,
   tot: null,
 });
+
+export const submitTotBtnStateStore = new Store<
+  "idle" | "loading" | "success" | "error"
+>("idle");
+
+export const delTotBtnStateStore = new Store<
+  "idle" | "loading" | "success" | "error"
+>("idle");

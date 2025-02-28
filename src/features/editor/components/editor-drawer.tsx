@@ -4,6 +4,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tot } from "@prisma/client";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
+import { useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { useEffect } from "react";
@@ -12,6 +13,7 @@ import { TbClearAll, TbX } from "react-icons/tb";
 import { z } from "zod";
 
 // Local Imports
+import { DelTotBtn } from "@/features/editor/components/del-tot-btn";
 import { TotsEditor } from "@/features/editor/components/tots-editor";
 import { createTot } from "@/features/tots/actions/create-tot";
 import { editTot } from "@/features/tots/actions/edit-tot";
@@ -24,7 +26,12 @@ import {
   FormItem,
 } from "@/shared/components/form";
 import { Modal, ModalContent, ModalTitle } from "@/shared/components/modal";
-import { drawerContainerStore, drawerStore } from "@/shared/store";
+import {
+  delTotBtnStateStore,
+  drawerContainerStore,
+  drawerStore,
+  submitTotBtnStateStore,
+} from "@/shared/store";
 import { ServerActionResponse } from "@/shared/types";
 
 const editorSchema = z.object({
@@ -55,10 +62,12 @@ export const EditorDrawer = () => {
     form.setValue("tot", currentTot?.content || "");
   }, [currentTot?.content, form]);
 
-  const onSubmit = async (values: EditorFormType) => {
-    console.log(values.tot); //! TBR
+  const queryClient = useQueryClient();
 
+  const onSubmit = async (values: EditorFormType) => {
     try {
+      submitTotBtnStateStore.setState(() => "loading");
+
       let response: ServerActionResponse | ServerActionResponse<Tot>;
 
       if (!drawer.tot) {
@@ -70,21 +79,33 @@ export const EditorDrawer = () => {
         });
       }
 
-      if (response.status === "success") {
-        console.log(response.message); //! TBR
+      if (response.status === "error") {
+        return submitTotBtnStateStore.setState(() => "error");
+      }
+
+      submitTotBtnStateStore.setState(() => "success");
+      setTimeout(() => {
         drawerStore.setState(() => ({
           drawerName: null,
           editable: false,
           tot: null,
         }));
-        return;
-      }
-      if (response.status === "error") {
-        console.log(response.message);
-        return;
-      }
+      }, 1000);
+      setTimeout(() => {
+        queryClient.invalidateQueries({
+          queryKey: ["tots"],
+        });
+      }, 1500);
     } catch (error) {
-      console.log(error);
+      if (process.env.NODE_ENV !== "production") {
+        console.error(error);
+      }
+
+      submitTotBtnStateStore.setState(() => "error");
+    } finally {
+      setTimeout(() => {
+        submitTotBtnStateStore.setState(() => "idle");
+      }, 3000);
     }
   };
 
@@ -203,6 +224,8 @@ const ExternalControls = ({
   >;
 }) => {
   const drawer = useStore(drawerStore);
+  const submitButtonState = useStore(submitTotBtnStateStore);
+  const delButtonState = useStore(delTotBtnStateStore);
 
   return (
     <div className="absolute -top-12 right-0 flex flex-row-reverse items-center gap-3 lg:top-0 lg:-right-12 lg:flex-col">
@@ -233,11 +256,15 @@ const ExternalControls = ({
             console.log(form.getValues());
           }}
           variant="secondary"
+          disabled={delButtonState !== "idle" || submitButtonState !== "idle"}
           className="ml-auto cursor-pointer rounded-full"
         >
           <TbClearAll size={20} strokeWidth={2} />
         </Button>
       ) : null}
+
+      {/* Delete Tot */}
+      {drawer.editable && !!drawer.tot ? <DelTotBtn /> : null}
     </div>
   );
 };
