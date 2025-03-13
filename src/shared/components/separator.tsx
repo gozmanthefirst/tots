@@ -1,10 +1,8 @@
 "use client";
 
-// External Imports
-import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import * as React from "react";
+import * as SeparatorPrimitive from "@radix-ui/react-separator";
 
-// Local Imports
 import { cn } from "../lib/utils/cn";
 
 const Separator = React.forwardRef<

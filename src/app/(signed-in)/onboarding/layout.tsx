@@ -1,18 +1,16 @@
-// External Imports
+import { ReactNode } from "react";
+import { redirect } from "next/navigation";
 import {
   dehydrate,
   HydrationBoundary,
   QueryClient,
 } from "@tanstack/react-query";
-import { ReactNode } from "react";
 
-// Local Imports
 import { getUser } from "@/shared/actions/get-user";
 import { getUsernames } from "@/shared/actions/get-usernames";
 import { Container } from "@/shared/components/container";
 import { LogoHeader } from "@/shared/components/logo-header";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
-import { redirect } from "next/navigation";
 
 interface Props {
   children: ReactNode;

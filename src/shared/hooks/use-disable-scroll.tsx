@@ -1,4 +1,3 @@
-// External Imports
 import { useEffect } from "react";
 
 export const useDisableScroll = (condition: boolean) => {

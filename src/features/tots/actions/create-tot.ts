@@ -1,11 +1,11 @@
 "use server";
 
-// Local Imports
+import { Tot } from "@prisma/client";
+
 import { getUser } from "@/shared/actions/get-user";
 import db from "@/shared/lib/db/prisma";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
-import { Tot } from "@prisma/client";
 
 export const createTot = async (values: {
   tot: string;

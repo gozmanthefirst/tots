@@ -1,4 +1,3 @@
-// Local Imports
 import { WelcomeContent } from "@/features/welcome/components/welcome-content";
 import { Container } from "@/shared/components/container";
 

@@ -1,11 +1,9 @@
 "use client";
 
-// External Imports
+import { useEffect, useRef, useState } from "react";
 import { Tot } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
 
-// Local Imports
 import { HtmlRenderer } from "@/shared/components/html-renderer";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { drawerStore } from "@/shared/store";

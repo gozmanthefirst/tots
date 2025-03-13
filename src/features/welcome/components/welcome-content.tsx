@@ -1,7 +1,5 @@
-// External Imports
 import Link from "next/link";
 
-// Local Imports
 import { buttonVariants } from "@/shared/components/button";
 import { cn } from "@/shared/lib/utils/cn";
 import { instrumentSerif } from "@/styles/fonts";

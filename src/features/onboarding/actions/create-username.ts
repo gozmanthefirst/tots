@@ -1,6 +1,5 @@
 "use server";
 
-// Local Imports
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { getUser, getUserByUsername } from "../../../shared/actions/get-user";
 import db from "../../../shared/lib/db/prisma";

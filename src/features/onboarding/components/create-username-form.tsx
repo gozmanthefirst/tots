@@ -1,16 +1,14 @@
 "use client";
 
-// External Imports
+import { JSX, useState } from "react";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useQuery } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
-import { useRouter } from "next/navigation";
-import { Dispatch, JSX, SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
 import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
 
-// Local Imports
 import { getUsernames } from "@/shared/actions/get-usernames";
 import { Button } from "@/shared/components/button";
 import {
@@ -211,7 +209,6 @@ export const CreateUsernameForm = () => {
             }
             buttonCopy={createUsernameBtnCopy}
             buttonState={createUsernameBtnState}
-            setButtonState={setCreateUsernameBtnState}
             size="lg"
             variant="brand"
           />
@@ -222,7 +219,6 @@ export const CreateUsernameForm = () => {
             }
             buttonCopy={signOutBtnCopy}
             buttonState={signOutBtnState}
-            setButtonState={setSignOutBtnState}
             size="lg"
             variant="secondary"
           />
@@ -236,9 +232,6 @@ interface AnimatedButtonProps {
   variant: "brand" | "secondary";
   size: "lg" | "xl";
   buttonState: "error" | "idle" | "loading" | "success";
-  setButtonState: Dispatch<
-    SetStateAction<"error" | "idle" | "loading" | "success">
-  >;
   buttonCopy: {
     idle: string;
     loading: JSX.Element;
@@ -254,7 +247,6 @@ const AnimatedButton = ({
   variant,
   size,
   buttonState,
-  setButtonState,
   buttonCopy,
   action,
   disabled,
@@ -273,7 +265,7 @@ const AnimatedButton = ({
       size={size}
       disabled={disabled}
       onClick={() => {
-        action ? action() : () => {};
+        action?.();
       }}
       className={cn("relative w-full max-w-md overflow-hidden")}
     >

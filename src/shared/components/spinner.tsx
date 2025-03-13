@@ -1,4 +1,3 @@
-// External Imports
 import { CSSProperties } from "react";
 
 const bars = Array(12).fill(0);

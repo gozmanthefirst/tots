@@ -1,12 +1,9 @@
-// External Imports
 import * as React from "react";
+
+import { cn } from "../lib/utils/cn";
 import { useFormField } from "./form";
 
-// Local Imports
-import { cn } from "../lib/utils/cn";
-
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {}
+export type InputProps = React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ className, type, ...props }, ref) => {

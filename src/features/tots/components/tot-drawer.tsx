@@ -1,22 +1,20 @@
 "use client";
 
-// External Imports
+import { useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Tot } from "@prisma/client";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
 import { useWindowSize } from "@uidotdev/usehooks";
-import { useEffect } from "react";
 import { useForm, UseFormReturn } from "react-hook-form";
 import { TbClearAll, TbX } from "react-icons/tb";
 import { z } from "zod";
 
-// Local Imports
-import { DelTotBtn } from "@/features/editor/components/del-tot-btn";
 import { TotsEditor } from "@/features/editor/components/tots-editor";
-import { createTot } from "@/features/tots/actions/create-tot";
 import { editTot } from "@/features/tots/actions/edit-tot";
+import { DelTotBtn } from "@/features/tots/components/del-tot-btn";
+import { createTot } from "@/features/tots/components/tots-editor";
 import { Button } from "@/shared/components/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@/shared/components/drawer";
 import {
@@ -42,7 +40,7 @@ const editorSchema = z.object({
 
 type EditorFormType = z.infer<typeof editorSchema>;
 
-export const EditorDrawer = () => {
+export const TotDrawer = () => {
   const drawer = useStore(drawerStore);
   const drawerContainer = useStore(drawerContainerStore);
 
@@ -220,7 +218,7 @@ const ExternalControls = ({
     {
       tot: string;
     },
-    any,
+    unknown,
     undefined
   >;
 }) => {

@@ -1,4 +1,3 @@
-// External Imports
 import { Geist, Instrument_Sans, Instrument_Serif } from "next/font/google";
 
 export const geist = Geist({

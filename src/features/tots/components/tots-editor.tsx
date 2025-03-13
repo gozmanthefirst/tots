@@ -1,6 +1,6 @@
 "use client";
 
-// External Imports
+import { BaseSyntheticEvent, useEffect } from "react";
 import { useStore } from "@tanstack/react-store";
 import Placeholder from "@tiptap/extension-placeholder";
 import TaskItem from "@tiptap/extension-task-item";
@@ -9,7 +9,6 @@ import Underline from "@tiptap/extension-underline";
 import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { AnimatePresence, motion } from "motion/react";
-import { BaseSyntheticEvent, useEffect } from "react";
 import {
   TbArrowUp,
   TbBold,
@@ -28,8 +27,7 @@ import {
 } from "react-icons/tb";
 import { RotatingLines } from "react-loader-spinner";
 
-// Local Imports
-import { DelTotBtn } from "@/features/editor/components/del-tot-btn";
+import { DelTotBtn } from "@/features/tots/components/del-tot-btn";
 import { Button } from "@/shared/components/button";
 import { Separator } from "@/shared/components/separator";
 import {
@@ -135,9 +133,9 @@ export const TotsEditor = ({ onChange, tots, onSubmit }: Props) => {
     <div className="flex flex-col">
       <EditorContent editor={editor} />
       {drawer.editable ? (
-        <EditorControls editor={editor} tots={tots} />
+        <EditorControls editor={editor} />
       ) : (
-        <NonEditorControls editor={editor} tots={tots} />
+        <NonEditorControls editor={editor} />
       )}
     </div>
   );
@@ -151,13 +149,7 @@ const buttonCopy = {
 };
 
 //* Editor Controls
-const EditorControls = ({
-  editor,
-  tots,
-}: {
-  editor: Editor | null;
-  tots: string;
-}) => {
+const EditorControls = ({ editor }: { editor: Editor | null }) => {
   const drawer = useStore(drawerStore);
   const submitButtonState = useStore(submitTotBtnStateStore);
   const delButtonState = useStore(delTotBtnStateStore);
@@ -355,13 +347,7 @@ const EditorControls = ({
 };
 
 //* Non-Editor Controls
-const NonEditorControls = ({
-  editor,
-  tots,
-}: {
-  editor: Editor | null;
-  tots: string;
-}) => {
+const NonEditorControls = ({ editor }: { editor: Editor | null }) => {
   const drawer = useStore(drawerStore);
   const delButtonState = useStore(delTotBtnStateStore);
 

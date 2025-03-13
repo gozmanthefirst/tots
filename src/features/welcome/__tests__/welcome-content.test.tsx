@@ -1,8 +1,7 @@
-// External Imports
 import "@testing-library/jest-dom";
+
 import { render, screen } from "@testing-library/react";
 
-// Local Imports
 import { WelcomeContent } from "@/features/welcome/components/welcome-content";
 
 describe("Welcome Content", () => {

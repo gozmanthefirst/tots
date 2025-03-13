@@ -1,13 +1,11 @@
 "use client";
 
-// External Imports
+import { useStore } from "@tanstack/react-store";
 import { motion } from "motion/react";
 
-// Local Imports
 import { Button } from "@/shared/components/button";
 import { Container } from "@/shared/components/container";
 import { drawerStore } from "@/shared/store";
-import { useStore } from "@tanstack/react-store";
 
 const MotionButton = motion.create(Button);
 

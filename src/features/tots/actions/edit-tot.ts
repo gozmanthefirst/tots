@@ -1,9 +1,7 @@
 "use server";
 
-// External Imports
 import { Tot } from "@prisma/client";
 
-// Local Imports
 import { getSingleTot } from "@/features/tots/actions/get-single-tot";
 import { getUser } from "@/shared/actions/get-user";
 import db from "@/shared/lib/db/prisma";

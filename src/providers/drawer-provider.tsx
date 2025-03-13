@@ -1,10 +1,8 @@
 "use client";
 
-// External Imports
 import { useEffect, useState } from "react";
 
-// Local Imports
-import { EditorDrawer } from "@/features/editor/components/editor-drawer";
+import { TotDrawer } from "@/features/tots/components/tot-drawer";
 
 export const DrawerProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -19,7 +17,7 @@ export const DrawerProvider = () => {
 
   return (
     <>
-      <EditorDrawer />
+      <TotDrawer />
     </>
   );
 };

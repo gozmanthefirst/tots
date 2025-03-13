@@ -1,9 +1,8 @@
-// External Imports
 import "@testing-library/jest-dom";
+
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
-// Local Imports
 import { SignInForm } from "@/features/auth/components/sign-in-form";
 import { signIn } from "@/shared/lib/auth/auth-client";
 
@@ -63,7 +62,7 @@ describe("Sign In Form", () => {
           provider: "google",
         });
         expect(btn).toBeDisabled();
-        
+
         // This is commented out because I stopped using the DIY loading spinner since it's a hack and therefore kinda messy. An alternative test for this will be found.
         // expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
       });

@@ -1,15 +1,13 @@
 "use client";
 
-// External Imports
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
   HTMLAttributes,
 } from "react";
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 
-// Local Imports
 import { cn } from "../lib/utils/cn";
 
 const Modal = DialogPrimitive.Root;

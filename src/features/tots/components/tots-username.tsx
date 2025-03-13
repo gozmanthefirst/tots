@@ -1,4 +1,3 @@
-// Local Imports
 import { cn } from "@/shared/lib/utils/cn";
 import { SessionUser } from "@/shared/types";
 import { instrumentSerif } from "@/styles/fonts";

@@ -1,12 +1,10 @@
 "use client";
 
-// External Imports
-import { AnimatePresence, motion } from "motion/react";
 import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { TbBrandGoogleFilled } from "react-icons/tb";
 import { RotatingLines } from "react-loader-spinner";
 
-// Local Imports
 import { Button } from "@/shared/components/button";
 import { signIn } from "@/shared/lib/auth/auth-client";
 import { cn } from "@/shared/lib/utils/cn";

@@ -1,9 +1,7 @@
 "use server";
 
-// External Imports
 import { headers } from "next/headers";
 
-// Local Imports
 import { auth } from "@/shared/lib/auth/auth";
 import db from "@/shared/lib/db/prisma";
 import { ServerActionResponse, SessionUser } from "@/shared/types";

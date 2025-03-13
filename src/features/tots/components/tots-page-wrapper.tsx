@@ -1,9 +1,7 @@
 "use client";
 
-// External Imports
 import { HTMLAttributes, Ref, useEffect, useRef } from "react";
 
-// Local Imports
 import { Container } from "@/shared/components/container";
 import { cn } from "@/shared/lib/utils/cn";
 import { drawerContainerStore } from "@/shared/store";

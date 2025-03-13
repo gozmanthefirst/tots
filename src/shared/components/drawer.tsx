@@ -1,8 +1,6 @@
-// External Imports
 import { ComponentPropsWithoutRef, ElementRef, forwardRef } from "react";
 import { Drawer as DrawerPrimitive } from "vaul";
 
-// Local Imports
 import { cn } from "../lib/utils/cn";
 
 const Drawer = DrawerPrimitive.Root;

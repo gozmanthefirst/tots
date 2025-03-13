@@ -1,14 +1,12 @@
 "use client";
 
-// External Imports
-import { AnimatePresence, motion } from "motion/react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
 import { RotatingLines } from "react-loader-spinner";
 
-// Local Imports
 import { Button } from "@/shared/components/button";
 import { Container } from "@/shared/components/container";
 import { signOut } from "@/shared/lib/auth/auth-client";

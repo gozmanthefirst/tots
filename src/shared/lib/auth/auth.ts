@@ -1,8 +1,6 @@
-// External Imports
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 
-// Local Imports
 import db from "../db/prisma";
 
 export const auth = betterAuth({

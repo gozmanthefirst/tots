@@ -1,6 +1,5 @@
 "use client";
 
-// External Imports
 import { Tot } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
@@ -8,7 +7,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { TbCircleCheck, TbExclamationCircle, TbTrash } from "react-icons/tb";
 import { RotatingLines } from "react-loader-spinner";
 
-// Local Imports
 import { deleteTot } from "@/features/tots/actions/delete-tot";
 import { Button } from "@/shared/components/button";
 import {
