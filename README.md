@@ -6,7 +6,6 @@ A modern web application for writing notes, lists and todos, built with Nextjs.
 
 - ✍️ Quick Capture - Effortlessly capture thoughts and ideas as they come
 - 📝 Flexible Notes - Write and organize your notes in a way that works for you
-- 🤝 Sharing - Collaborate with others by sharing notes and lists
 - 🔄 Real-time Sync - Access your notes across all your devices
 - 🎨 Clean Interface - Modern, distraction-free writing experience
 
@@ -46,6 +45,7 @@ The application will be available at `http://localhost:3000`
 
 ## Future Features
 
+- Sharing - Ability to collaborate with others by sharing notes and lists
 - Media Support - Ability to add snapshots and images to your notes
 
 ## Contributing
