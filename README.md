@@ -45,6 +45,7 @@ The application will be available at `http://localhost:3000`
 
 ## Future Features
 
+- Folder Organization - Organize your tots into multiple folders for better categorization
 - Sharing - Ability to collaborate with others by sharing notes and lists
 - Media Support - Ability to add snapshots and images to your notes
 
