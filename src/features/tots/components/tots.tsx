@@ -52,7 +52,7 @@ const SingleTot = ({ tot }: { tot: Tot }) => {
       onClick={() => {
         drawerStore.setState(() => ({
           drawerName: tot.id,
-          editable: false,
+          editable: !isOverflowing,
           tot,
         }));
       }}
