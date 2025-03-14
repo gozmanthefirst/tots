@@ -1,12 +1,7 @@
-;
 // @ts-check
 
 import { FlatCompat } from "@eslint/eslintrc";
 import boundaries from "eslint-plugin-boundaries";
-
-
-
-
 
 const compat = new FlatCompat({
   baseDirectory: import.meta.dirname,
@@ -24,12 +19,12 @@ const eslintConfig = [
         {
           mode: "full",
           type: "global",
-          pattern: ["src/global/**/*", "src/shared/**/*", "src/styles/**/*"],
-        },
-        {
-          mode: "full",
-          type: "provider",
-          pattern: ["src/providers/**/*"],
+          pattern: [
+            "src/global/**/*",
+            "src/styles/**/*",
+            "src/shared/**/*",
+            "src/providers/**/*",
+          ],
         },
         {
           mode: "full",
@@ -57,16 +52,10 @@ const eslintConfig = [
         "error",
         {
           default: "disallow",
+          // Allow imports from a global folder to a global file
           rules: [
-            // Allow imports from a global folder to a global file
             {
               from: ["global"],
-              allow: ["global"],
-            },
-
-            // Allow imports from a global or feature folder to a provider file
-            {
-              from: ["provider"],
               allow: ["global", "feature"],
             },
 
@@ -76,7 +65,6 @@ const eslintConfig = [
               from: ["feature"],
               allow: [
                 "global",
-                "provider",
                 ["feature", { featureName: "${from.featureName}" }],
               ],
             },
@@ -84,7 +72,7 @@ const eslintConfig = [
             // Allow imports from a global folder or a feature folder to an app file or to neverImport files
             {
               from: ["app", "neverImport"],
-              allow: ["global", "provider", "feature"],
+              allow: ["global", "feature"],
             },
 
             // Allow imports from a .css file to an app file
