@@ -127,6 +127,27 @@ export const TotsEditor = ({ onChange, tots, onSubmit }: Props) => {
     }
   }, [drawer.editable, editor]);
 
+  // Keyboard shortcut that makes the editor editable, if it already isn't Ctrl+E or Cmd+E (Mac)
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && event.key === "e") {
+        event.preventDefault();
+        if (!drawer.editable) {
+          drawerStore.setState(() => ({
+            drawerName: drawer.drawerName,
+            editable: true,
+            tot: drawer.tot,
+          }));
+        }
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [drawer]);
+
   if (!editor) {
     return null;
   }
