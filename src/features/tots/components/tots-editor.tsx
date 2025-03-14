@@ -371,9 +371,9 @@ const EditorControls = ({ editor }: { editor: Editor | null }) => {
         size="icon"
         form="tot-editor"
         variant={
-          delButtonState === "idle"
+          submitButtonState === "idle"
             ? "white"
-            : delButtonState === "error"
+            : submitButtonState === "error"
               ? "destructive"
               : "brand"
         }
