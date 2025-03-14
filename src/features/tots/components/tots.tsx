@@ -25,22 +25,26 @@ export const Tots = () => {
 
 const SingleTot = ({ tot }: { tot: Tot }) => {
   const [isOverflowing, setIsOverflowing] = useState(false);
-
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // useEffect to check if a tot card is overflowing
-  useEffect(() => {
-    const checkOverflow = () => {
-      if (containerRef.current) {
-        const { scrollHeight, clientHeight } = containerRef.current;
-        setIsOverflowing(scrollHeight > clientHeight);
-      }
-    };
+  const checkOverflow = () => {
+    if (containerRef.current) {
+      const { scrollHeight, clientHeight } = containerRef.current;
+      setIsOverflowing(scrollHeight > clientHeight);
+    }
+  };
 
+  // Check overflow on mount and window resize
+  useEffect(() => {
     checkOverflow();
     window.addEventListener("resize", checkOverflow);
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
+
+  // Check overflow when tot content changes
+  useEffect(() => {
+    checkOverflow();
+  }, [tot.content]);
 
   return (
     <div
