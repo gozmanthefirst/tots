@@ -10,6 +10,8 @@ import { Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { AnimatePresence, motion } from "motion/react";
 import {
+  TbArrowBackUp,
+  TbArrowForwardUp,
   TbArrowUp,
   TbBold,
   TbCircleCheck,
@@ -168,6 +170,39 @@ const EditorControls = ({ editor }: { editor: Editor | null }) => {
     <div className="flex items-center gap-2 py-3">
       {/* Formatting Options */}
       <div className="remove-system-scrollbar flex w-[calc(100%_-_48px)] items-center gap-2 overflow-auto">
+        {/* Undo/Redo */}
+        <div className="flex items-center justify-center gap-1">
+          <Button
+            type="button"
+            onClick={() => editor.chain().focus().undo().run()}
+            variant="ghost"
+            size="smIcon"
+            disabled={
+              !editor.can().undo() ||
+              delButtonState !== "idle" ||
+              submitButtonState !== "idle"
+            }
+          >
+            <TbArrowBackUp size={18} />
+          </Button>
+
+          <Button
+            type="button"
+            onClick={() => editor.chain().focus().redo().run()}
+            variant="ghost"
+            size="smIcon"
+            disabled={
+              !editor.can().redo() ||
+              delButtonState !== "idle" ||
+              submitButtonState !== "idle"
+            }
+          >
+            <TbArrowForwardUp size={18} />
+          </Button>
+        </div>
+
+        <Separator orientation="vertical" className="h-4" />
+
         {/* Headings */}
         <div className="flex items-center justify-center gap-1">
           {/* H1 */}
