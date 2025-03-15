@@ -9,7 +9,7 @@ import { useForm } from "react-hook-form";
 import { RotatingLines } from "react-loader-spinner";
 import { z } from "zod";
 
-import { getUsernames } from "@/shared/actions/get-usernames";
+import { getUsernames } from "@/shared/api/get-usernames";
 import { Button } from "@/shared/components/button";
 import {
   Form,
@@ -24,7 +24,7 @@ import { cn } from "@/shared/lib/utils/cn";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 import { instrumentSerif } from "@/styles/fonts";
-import { createUsername } from "../actions/create-username";
+import { createUsername } from "../api/create-username";
 
 const createUsernameBtnCopy = {
   idle: "Create Username",

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { redirect } from "next/navigation";
 
-import { getUser } from "@/shared/actions/get-user";
+import { getUser } from "@/shared/api/get-user";
 import { Container } from "@/shared/components/container";
 import { LogoHeader } from "@/shared/components/logo-header";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";

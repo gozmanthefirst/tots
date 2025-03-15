@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { HtmlRenderer } from "@/shared/components/html-renderer";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { drawerStore } from "@/shared/store";
-import { getTots } from "../actions/get-tots";
+import { getTots } from "../api/get-tots";
 import { formatTotsByDate } from "../utils/format-tots";
 
 export const Tots = () => {

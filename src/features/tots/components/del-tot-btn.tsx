@@ -7,7 +7,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { TbCircleCheck, TbExclamationCircle, TbTrash } from "react-icons/tb";
 import { RotatingLines } from "react-loader-spinner";
 
-import { deleteTot } from "@/features/tots/actions/delete-tot";
+import { deleteTot } from "@/features/tots/api/delete-tot";
 import { Button } from "@/shared/components/button";
 import {
   delTotBtnStateStore,

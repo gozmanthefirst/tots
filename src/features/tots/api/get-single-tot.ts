@@ -2,7 +2,7 @@
 
 import { Tot } from "@prisma/client";
 
-import { getUser } from "@/shared/actions/get-user";
+import { getUser } from "@/shared/api/get-user";
 import db from "@/shared/lib/db/prisma";
 import {
   createParallelAction,
@@ -10,9 +10,11 @@ import {
 } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 
-// get tots
-export const getTots = createParallelAction(
-  async (): Promise<ServerActionResponse | ServerActionResponse<Tot[]>> => {
+// get single tot
+export const getSingleTot = createParallelAction(
+  async (
+    totId: string,
+  ): Promise<ServerActionResponse | ServerActionResponse<Tot>> => {
     try {
       const [{ data: user }] = await Promise.all([
         runParallelAction(getUser()),
@@ -25,29 +27,30 @@ export const getTots = createParallelAction(
         };
       }
 
-      const tots = await db.tot.findMany({
+      const tot = await db.tot.findUnique({
         where: {
           userId: user.id,
+          id: totId,
         },
       });
 
-      if (!tots) {
+      if (!tot) {
         return {
           status: "error",
-          message: "Tots not found!",
+          message: "Tot not found!",
         };
       }
 
       return {
         status: "success",
-        message: "Tots found!",
-        data: tots,
+        message: "Tot found!",
+        data: tot,
       };
     } catch (error) {
       console.log(error);
       return {
         status: "error",
-        message: `Error fetching tots: ${error}`,
+        message: `Error fetching tot: ${error}`,
       };
     }
   },

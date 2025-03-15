@@ -11,7 +11,7 @@ import { useForm, UseFormReturn } from "react-hook-form";
 import { TbClearAll, TbX } from "react-icons/tb";
 import { z } from "zod";
 
-import { editTot } from "@/features/tots/actions/edit-tot";
+import { editTot } from "@/features/tots/api/edit-tot";
 import { DelTotBtn } from "@/features/tots/components/del-tot-btn";
 import { Button } from "@/shared/components/button";
 import { Drawer, DrawerContent, DrawerTitle } from "@/shared/components/drawer";
@@ -29,7 +29,7 @@ import {
   submitTotBtnStateStore,
 } from "@/shared/store";
 import { ServerActionResponse } from "@/shared/types";
-import { createTot } from "../actions/create-tot";
+import { createTot } from "../api/create-tot";
 import { TotsEditor } from "./tots-editor";
 
 const editorSchema = z.object({

@@ -2,7 +2,7 @@
 
 import { Tot } from "@prisma/client";
 
-import { getUser } from "@/shared/actions/get-user";
+import { getUser } from "@/shared/api/get-user";
 import db from "@/shared/lib/db/prisma";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";

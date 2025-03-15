@@ -6,8 +6,8 @@ import {
   QueryClient,
 } from "@tanstack/react-query";
 
-import { getUser } from "@/shared/actions/get-user";
-import { getUsernames } from "@/shared/actions/get-usernames";
+import { getUser } from "@/shared/api/get-user";
+import { getUsernames } from "@/shared/api/get-usernames";
 import { Container } from "@/shared/components/container";
 import { LogoHeader } from "@/shared/components/logo-header";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
