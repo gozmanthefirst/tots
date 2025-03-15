@@ -8,17 +8,32 @@ import { HtmlRenderer } from "@/shared/components/html-renderer";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { drawerStore } from "@/shared/store";
 import { getTots } from "../actions/get-tots";
+import { formatTotsByDate } from "../utils/format-tots";
 
 export const Tots = () => {
-  // Fetch Tots
   const { data: { data: tots } = {} } = useQuery({
     queryKey: ["tots"],
     queryFn: () => runParallelAction(getTots()),
   });
 
+  const formattedTots = tots ? formatTotsByDate(tots) : [];
+
   return (
-    <ul className="relative mx-auto flex h-full max-w-2xl flex-col gap-4">
-      {tots?.map((tot) => <SingleTot key={tot.id} tot={tot} />)}
+    <ul className="relative mx-auto flex h-full max-w-2xl flex-col gap-8">
+      {formattedTots.map(({ date, tots }) => (
+        <li key={date} className="relative flex flex-col gap-2">
+          <h2 className="flex items-center gap-3 text-sm font-medium text-neutral-500 xl:absolute xl:right-full xl:mr-6 xl:text-nowrap">
+            <span>{date}</span>{" "}
+            <span className="font-bold text-brand-400">{tots.length}</span>
+          </h2>
+
+          <div className="flex flex-col gap-4">
+            {tots.map((tot) => (
+              <SingleTot key={tot.id} tot={tot} />
+            ))}
+          </div>
+        </li>
+      ))}
     </ul>
   );
 };
