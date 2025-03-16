@@ -71,7 +71,7 @@ const SingleTot = ({ tot }: { tot: Tot }) => {
           tot,
         }));
       }}
-      className="relative z-10 max-h-[50dvh] cursor-pointer overflow-hidden border border-neutral-800 bg-neutral-900/80 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:p-5 lg:hover:border-neutral-700/70 lg:hover:bg-neutral-900 lg:hover:shadow-lg"
+      className="relative z-10 max-h-[50lvh] cursor-pointer overflow-hidden border border-neutral-800 bg-neutral-900/80 p-4 text-neutral-300 shadow-sm transition duration-200 select-none md:p-5 lg:hover:border-neutral-700/70 lg:hover:bg-neutral-900 lg:hover:shadow-lg"
     >
       <HtmlRenderer html={tot.content} />
 
