@@ -43,6 +43,14 @@ export const formatTotsByDate = (tots: Tot[]): FormattedTots[] => {
     return acc;
   }, new Map<string, Tot[]>());
 
+  // Sort tots within each group by date (newest first)
+  totsByDate.forEach((tots) => {
+    tots.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+  });
+
   // Convert Map to array and sort by date (newest first)
   return Array.from(totsByDate.entries())
     .map(([date, tots]) => ({
