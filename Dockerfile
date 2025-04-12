@@ -19,7 +19,7 @@ RUN npm install -g pnpm && \
     pnpm install --frozen-lockfile
 
 # Generate Prisma client
-RUN pnpm dlx prisma generate
+RUN pnpm exec prisma generate
 
 # Rebuild the source code only when needed
 FROM base AS builder
