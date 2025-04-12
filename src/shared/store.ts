@@ -20,3 +20,7 @@ export const submitTotBtnStateStore = new Store<
 export const delTotBtnStateStore = new Store<
   "idle" | "loading" | "success" | "error"
 >("idle");
+
+export const pinTotBtnStateStore = new Store<
+  "idle" | "loading" | "success" | "error"
+>("idle");

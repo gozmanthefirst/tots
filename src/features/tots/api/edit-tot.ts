@@ -9,15 +9,14 @@ import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 
 export const editTot = async (values: {
-  updatedTot: string;
-  tot: Tot;
+  updatedTot: Tot;
 }): Promise<ServerActionResponse | ServerActionResponse<Tot>> => {
-  const { tot: totObj, updatedTot } = values;
+  const { updatedTot } = values;
 
   try {
     const [{ data: user }, { data: singleTot }] = await Promise.all([
       runParallelAction(getUser()),
-      runParallelAction(getSingleTot(totObj.id)),
+      runParallelAction(getSingleTot(updatedTot.id)),
     ]);
 
     if (!user) {
@@ -39,9 +38,7 @@ export const editTot = async (values: {
         userId: user.id,
         id: singleTot.id,
       },
-      data: {
-        content: updatedTot,
-      },
+      data: updatedTot,
     });
 
     return {
