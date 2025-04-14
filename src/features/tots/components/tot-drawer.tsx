@@ -251,9 +251,7 @@ const ExternalControls = ({
     <>
       {/* Left Controls (Pin) */}
       <div className="absolute -top-12 left-0 flex items-center gap-3 lg:top-0 lg:-left-12 lg:flex-col">
-        {drawer.editable &&
-        drawer.tot &&
-        (isPinned || pinnedTots.length < 3) ? (
+        {drawer.tot && (isPinned || pinnedTots.length < 3) ? (
           <PinTotBtn isPinned={isPinned} />
         ) : null}
       </div>
