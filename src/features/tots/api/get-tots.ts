@@ -4,6 +4,7 @@ import { Tot } from "@prisma/client";
 
 import { getUser } from "@/shared/api/get-user";
 import db from "@/shared/lib/db/prisma";
+import { decrypt } from "@/shared/lib/utils/encryption";
 import {
   createParallelAction,
   runParallelAction,
@@ -25,30 +26,32 @@ export const getTots = createParallelAction(
         };
       }
 
-      const tots = await db.tot.findMany({
-        where: {
-          userId: user.id,
-        },
+      const totsFromDb = await db.tot.findMany({
+        where: { userId: user.id },
+        orderBy: { createdAt: "desc" },
       });
 
-      if (!tots) {
+      if (!totsFromDb) {
         return {
           status: "error",
           message: "Tots not found!",
         };
       }
 
+      // Decrypt content for each tot
+      const decryptedTots = totsFromDb.map((tot) => ({
+        ...tot,
+        content: decrypt(tot.content),
+      }));
+
       return {
         status: "success",
         message: "Tots found!",
-        data: tots,
+        data: decryptedTots,
       };
     } catch (error) {
-      console.log(error);
-      return {
-        status: "error",
-        message: `Error fetching tots: ${error}`,
-      };
+      console.error("Error fetching tots:", error);
+      return { status: "error", message: "Failed to fetch tots." };
     }
   },
 );

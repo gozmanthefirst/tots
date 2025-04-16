@@ -69,7 +69,7 @@ export const TotDrawer = () => {
     try {
       submitTotBtnStateStore.setState(() => "loading");
 
-      let response: ServerActionResponse | ServerActionResponse<Tot>;
+      let response: ServerActionResponse;
 
       if (!drawer.tot) {
         response = await createTot(values);

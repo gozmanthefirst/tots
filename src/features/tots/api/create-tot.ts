@@ -1,15 +1,14 @@
 "use server";
 
-import { Tot } from "@prisma/client";
-
 import { getUser } from "@/shared/api/get-user";
 import db from "@/shared/lib/db/prisma";
+import { encrypt } from "@/shared/lib/utils/encryption";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
 
 export const createTot = async (values: {
   tot: string;
-}): Promise<ServerActionResponse | ServerActionResponse<Tot>> => {
+}): Promise<ServerActionResponse> => {
   const { tot: enteredTot } = values;
 
   try {
@@ -22,10 +21,13 @@ export const createTot = async (values: {
       };
     }
 
-    const tot = await db.tot.create({
+    // Encrypt the content before saving
+    const encryptedContent = encrypt(enteredTot);
+
+    await db.tot.create({
       data: {
         userId: user.id,
-        content: enteredTot,
+        content: encryptedContent,
         folder: "main",
       },
     });
@@ -33,7 +35,6 @@ export const createTot = async (values: {
     return {
       status: "success",
       message: "Tot succesfully created!",
-      data: tot,
     };
   } catch (error) {
     console.log(error);
