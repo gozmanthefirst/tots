@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Tot } from "@prisma/client";
 import { VisuallyHidden } from "@radix-ui/react-visually-hidden";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
@@ -24,6 +23,7 @@ import {
   FormItem,
 } from "@/shared/components/form";
 import { Modal, ModalContent, ModalTitle } from "@/shared/components/modal";
+import { Tot } from "@/shared/lib/db/prisma";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import {
   delTotBtnStateStore,

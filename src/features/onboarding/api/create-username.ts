@@ -2,7 +2,7 @@
 
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { getUser, getUserByUsername } from "../../../shared/api/get-user";
-import db from "../../../shared/lib/db/prisma";
+import { db } from "../../../shared/lib/db/prisma";
 import { ServerActionResponse } from "../../../shared/types";
 
 export const createUsername = async (values: {

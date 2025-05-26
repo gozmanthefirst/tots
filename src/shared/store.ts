@@ -1,5 +1,6 @@
-import { Tot } from "@prisma/client";
 import { Store } from "@tanstack/react-store";
+
+import { Tot } from "@/shared/lib/db/prisma";
 
 export const drawerContainerStore = new Store<HTMLElement | null>(null);
 

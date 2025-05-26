@@ -1,6 +1,5 @@
 "use client";
 
-import { Tot } from "@prisma/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { useStore } from "@tanstack/react-store";
 import { AnimatePresence, motion } from "motion/react";
@@ -9,6 +8,7 @@ import { RotatingLines } from "react-loader-spinner";
 
 import { deleteTot } from "@/features/tots/api/delete-tot";
 import { Button } from "@/shared/components/button";
+import { Tot } from "@/shared/lib/db/prisma";
 import {
   delTotBtnStateStore,
   drawerStore,

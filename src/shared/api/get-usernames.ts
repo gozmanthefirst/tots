@@ -1,6 +1,6 @@
 "use server";
 
-import db from "@/shared/lib/db/prisma";
+import { db } from "@/shared/lib/db/prisma";
 import { ServerActionResponse } from "@/shared/types";
 import { createParallelAction } from "../lib/utils/parallel-server-action";
 

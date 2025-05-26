@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Tot } from "@prisma/client";
 import { useQuery } from "@tanstack/react-query";
 import { TbPinned } from "react-icons/tb";
 
 import { HtmlRenderer } from "@/shared/components/html-renderer";
+import { Tot } from "@/shared/lib/db/prisma";
 import { cn } from "@/shared/lib/utils/cn";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { drawerStore } from "@/shared/store";

@@ -3,7 +3,7 @@
 import { headers } from "next/headers";
 
 import { auth } from "@/shared/lib/auth/auth";
-import db from "@/shared/lib/db/prisma";
+import { db } from "@/shared/lib/db/prisma";
 import { ServerActionResponse, SessionUser } from "@/shared/types";
 import { createParallelAction } from "../lib/utils/parallel-server-action";
 

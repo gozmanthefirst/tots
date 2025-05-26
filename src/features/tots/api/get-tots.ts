@@ -1,9 +1,7 @@
 "use server";
 
-import { Tot } from "@prisma/client";
-
 import { getUser } from "@/shared/api/get-user";
-import db from "@/shared/lib/db/prisma";
+import { db, Tot } from "@/shared/lib/db/prisma";
 import { decrypt } from "@/shared/lib/utils/encryption";
 import {
   createParallelAction,

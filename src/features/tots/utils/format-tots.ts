@@ -1,4 +1,4 @@
-import { Tot } from "@prisma/client";
+import { Tot } from "@/shared/lib/db/prisma";
 
 type FormattedTots = {
   date: string;

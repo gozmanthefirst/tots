@@ -1,7 +1,7 @@
 "use server";
 
 import { getUser } from "@/shared/api/get-user";
-import db from "@/shared/lib/db/prisma";
+import { db } from "@/shared/lib/db/prisma";
 import { encrypt } from "@/shared/lib/utils/encryption";
 import { runParallelAction } from "@/shared/lib/utils/parallel-server-action";
 import { ServerActionResponse } from "@/shared/types";
