@@ -14,7 +14,8 @@
     "db:deploy": "prisma migrate deploy",
     "db:studio": "prisma studio",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",
